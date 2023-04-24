@@ -1,5 +1,6 @@
-from maya import cmds
+# Imports
 import math
+from maya import cmds
 
 
 def distance_from_a_to_b(a, b):

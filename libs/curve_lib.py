@@ -1,3 +1,4 @@
+# Imports
 import maya.cmds as cmds
 
 """
@@ -10,6 +11,7 @@ curve_lib.CurveLib()
 curve_lib.select_odd_cvs(crv)
 
 """
+
 
 def get_curve_data(crv):
     """
@@ -108,22 +110,25 @@ def even_cvs(crv):
     return cv_list
 
 
-def stretch_curve(crv, joint_list, axis):
+def stretch_curve(crv, joint_list):
     crv_shape = cmds.listRelatives(crv, shapes=True)[0]
-    cinfo_node = cmds.createNode('curveInfo', name='{}Lenght_{}_cinfo'.format(crv.split('_')[0], crv.split('_')[1] ))
-    norm_node = cmds.createNode('multiplyDivide', name='{}Lenght_{}_norm'.format(crv.split('_')[0], crv.split('_')[1] ))
-    global_norm_node = cmds.createNode('multiplyDivide', name='{}GlobalScale_{}_norm'.format(crv.split('_')[0], crv.split('_')[1] ))
+    cinfo_node = cmds.createNode('curveInfo', name='{}_{}_cinfo'.format(crv.split('_')[0], crv.split('_')[1]))
+    norm_node = cmds.createNode('multiplyDivide', name='{}_{}_norm'.format(crv.split('_')[0], crv.split('_')[1]))
+    global_norm_node = cmds.createNode('multiplyDivide', name='{}GlobalScale_{}_norm'.format(crv.split('_')[0],
+                                                                                             crv.split('_')[1]))
     cmds.setAttr('{}.operation'.format(norm_node), 2)
     cmds.setAttr('{}.operation'.format(global_norm_node), 2)
     cmds.connectAttr('{}.worldSpace[0]'.format(crv_shape), '{}.inputCurve'.format(cinfo_node))
     cmds.connectAttr('{}.arcLength'.format(cinfo_node), '{}.input1.input1X'.format(norm_node))
     cmds.connectAttr('{}.output.outputX'.format(norm_node), '{}.input1.input1X'.format(global_norm_node))
     crv_lenght = cmds.getAttr('{}.arcLength'.format(cinfo_node))
-    cmds.setAttr('{}.input2.input2X'.format(norm_node),crv_lenght)
+    cmds.setAttr('{}.input2.input2X'.format(norm_node), crv_lenght)
     for jnt in joint_list:
-        mult_node = cmds.createNode('multDoubleLinear', name='{}{}Lenght_{}_mult'.format(jnt.split('_')[0],jnt.split('_')[2].capitalize(), jnt.split('_')[1]))
-        jnt_distance = cmds.getAttr('{}.translate.translate{}'.format(jnt, axis))
+        mult_node = cmds.createNode('multDoubleLinear', name='{}{}_{}_mult'.format(jnt.split('_')[0],
+                                                                                   jnt.split('_')[2].capitalize(),
+                                                                                   jnt.split('_')[1]))
+        jnt_distance = cmds.getAttr('{}.translate.translateX'.format(jnt))
         cmds.setAttr('{}.input1'.format(mult_node), jnt_distance)
         cmds.connectAttr('{}.output.outputX'.format(global_norm_node), '{}.input2'.format(mult_node))
-        cmds.connectAttr('{}.output'.format(mult_node), '{}.translate.translate{}'.format(jnt, axis))
+        cmds.connectAttr('{}.output'.format(mult_node), '{}.translate.translateX'.format(jnt))
 

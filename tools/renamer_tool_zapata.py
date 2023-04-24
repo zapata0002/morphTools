@@ -2,7 +2,7 @@ import maya.cmds as cmds
 from functools import partial
 
 
-class RenamerWindow():
+class RenamerWindow:
     def __init__(self):
         self.name = 'renamer_zapata_v01'
         self.window_width = 320
@@ -27,7 +27,8 @@ class RenamerWindow():
         replace_field = cmds.textField()
         cmds.setParent(main_column)
         cmds.separator(width=325, height=8, style='none')
-        cmds.button(label='Search And Replace', width=325, command=partial(search_and_replace, search_field, replace_field))
+        cmds.button(label='Search And Replace', width=325, command=partial(search_and_replace, search_field,
+                                                                           replace_field))
         # Prefix Layout
         cmds.separator(width=315, height=10, style='in')
         cmds.rowColumnLayout(numberOfColumns=2, columnWidth=[(1, 50), (2, 260)])
@@ -62,19 +63,24 @@ class RenamerWindow():
         rename_suffix_field = cmds.textField()
         cmds.setParent(main_column)
         cmds.separator(width=315, height=5, style='none')
-        cmds.button(label='Rename And Number', width=315, align='center', command=partial(rename_and_number, rename_field, start_number_field, padding_field, rename_prefix_field, rename_suffix_field))
+        cmds.button(label='Rename And Number', width=315, align='center', command=partial(rename_and_number,
+                                                                                          rename_field,
+                                                                                          start_number_field,
+                                                                                          padding_field,
+                                                                                          rename_prefix_field,
+                                                                                          rename_suffix_field))
         cmds.setParent(main_column)
         cmds.separator(width=315, height=5, style='none')
-        cmds.button(label='Clear', width=315, align='center', command=partial(clear_text_filed, search_field, replace_field, 
-                                                                                                prefix_field, suffix_field,
-                                                                                                rename_field, start_number_field,
-                                                                                                padding_field, rename_prefix_field,
-                                                                                                rename_suffix_field))
+        cmds.button(label='Clear', width=315, align='center', command=partial(clear_text_filed, search_field,
+                                                                              replace_field, prefix_field, suffix_field,
+                                                                              rename_field, start_number_field,
+                                                                              padding_field, rename_prefix_field,
+                                                                              rename_suffix_field))
         cmds.separator(width=315, height=10, style='in')
         cmds.showWindow()
 
-def search_and_replace(search_field, replace_field, *args):
 
+def search_and_replace(search_field, replace_field):
     cmds.undoInfo(openChunk=True)
     search_field = cmds.textField(search_field, query=True, text=True)
     replace_field = cmds.textField(replace_field, query=True, text=True)
@@ -91,7 +97,7 @@ def search_and_replace(search_field, replace_field, *args):
     cmds.undoInfo(closeChunk=True)
 
 
-def add_prefix(prefix_field, *args):
+def add_prefix(prefix_field):
     cmds.undoInfo(openChunk=True)
     prefix_field = cmds.textField(prefix_field, query=True, text=True)
     selected_list = cmds.ls(sl=True)
@@ -106,7 +112,7 @@ def add_prefix(prefix_field, *args):
     cmds.undoInfo(closeChunk=True)
 
 
-def add_suffix(suffix_field, *args):
+def add_suffix(suffix_field):
     cmds.undoInfo(openChunk=True)
     suffix_field = cmds.textField(suffix_field, query=True, text=True)
     selected_list = cmds.ls(sl=True)
@@ -120,7 +126,8 @@ def add_suffix(suffix_field, *args):
             cmds.rename(sel, '{}{}'.format(split_name[-1], suffix_field))
     cmds.undoInfo(closeChunk=True)
 
-def rename_and_number(rename_field, start_number_field, padding_field, rename_prefix_field, rename_suffix_field, *args):
+
+def rename_and_number(rename_field, start_number_field, padding_field, rename_prefix_field, rename_suffix_field):
     cmds.undoInfo(openChunk=True)
     rename_field = cmds.textField(rename_field, query=True, text=True)
     start_number_field = cmds.intField(start_number_field, query=True, value=True)
@@ -146,25 +153,22 @@ def rename_and_number(rename_field, start_number_field, padding_field, rename_pr
             if rename_suffix_field:
                 rename_name = cmds.rename(rename_name, '{}{}'.format(rename_name, rename_suffix_field))
                 if rename_prefix_field:
-                    rename_name = cmds.rename(rename_name, '{}{}'.format(rename_prefix_field, rename_name))
+                    cmds.rename(rename_name, '{}{}'.format(rename_prefix_field, rename_name))
             else:
                 if rename_prefix_field:
-                    rename_name = cmds.rename(rename_name, '{}{}'.format(rename_prefix_field, rename_name))
+                    cmds.rename(rename_name, '{}{}'.format(rename_prefix_field, rename_name))
         cmds.undoInfo(closeChunk=True)
-def clear_text_filed(search_field, replace_field, 
-                      prefix_field, suffix_field,
-                      rename_field, start_number_field,
-                      padding_field, rename_prefix_field,
-                      rename_suffix_field, *args):
-    search_field = cmds.textField(search_field, edit=True, text='')
-    replace_field = cmds.textField(replace_field, edit=True, text='')
-    prefix_field = cmds.textField(prefix_field, edit=True, text='')
-    suffix_field = cmds.textField(suffix_field, edit=True, text='')
-    rename_field = cmds.textField(rename_field, edit=True, text='')
-    start_number_field = cmds.intField(start_number_field, edit=True, value=1)
-    padding_field = cmds.intField(padding_field, edit=True, value=2)
-    rename_prefix_field = cmds.textField(rename_prefix_field, edit=True, text='')
-    rename_suffix_field = cmds.textField(rename_suffix_field, edit=True, text='') 
 
-RenamerWindow()
 
+def clear_text_filed(search_field, replace_field,
+                     prefix_field, suffix_field,
+                     rename_field, start_number_field, padding_field, rename_prefix_field, rename_suffix_field):
+    cmds.textField(search_field, edit=True, text='')
+    cmds.textField(replace_field, edit=True, text='')
+    cmds.textField(prefix_field, edit=True, text='')
+    cmds.textField(suffix_field, edit=True, text='')
+    cmds.textField(rename_field, edit=True, text='')
+    cmds.intField(start_number_field, edit=True, value=1)
+    cmds.intField(padding_field, edit=True, value=2)
+    cmds.textField(rename_prefix_field, edit=True, text='')
+    cmds.textField(rename_suffix_field, edit=True, text='')

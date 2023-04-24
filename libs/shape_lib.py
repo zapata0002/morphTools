@@ -1,5 +1,6 @@
-import maya.cmds as cmds
+# Imports
 import importlib
+import maya.cmds as cmds
 from maya_lib.libs import curve_lib
 importlib.reload(curve_lib)
 
@@ -77,6 +78,12 @@ class ShapeLib:
         if type == 'cylinder':
             self.create_cylinder()
 
+    def get_control_name(self):
+        if self.control:
+            return self.control
+        else:
+            return self.name
+
     def create_circle(self, degree=3, sections=8):
         self.control = cmds.circle(name=self.name, degree=degree, normal=(0, 1, 0), sections=sections)
         shape = cmds.listRelatives(self.control, shapes=True)[0]
@@ -84,7 +91,8 @@ class ShapeLib:
         cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control[0]))
         cmds.delete(self.control, constructionHistory=True)
         cmds.select(self.control[0])
-        return self.control[0]
+        self.control = self.get_control_name()
+        return self.control
 
     def create_triangle(self):
         self.control = cmds.circle(name=self.name, degree=1, sections=3, normal=(0, 1, 0))
@@ -96,20 +104,24 @@ class ShapeLib:
         return self.control[0]
 
     def create_square(self):
-        self.control = cmds.curve(name=self.name, degree=1, point=[(-1, 0, -1), (-1, 0, 1), (1, 0, 1), (1, 0, -1), (-1, 0, -1)])
+        self.control = cmds.curve(name=self.name, degree=1, point=[(-1, 0, -1), (-1, 0, 1), (1, 0, 1), (1, 0, -1),
+                                                                   (-1, 0, -1)])
         shape = cmds.listRelatives(self.control, shapes=True)[0]
         cmds.rename(shape, '{}Shape'.format(self.control))
-        cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control[0]))
+        cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control))
         cmds.delete(self.control, constructionHistory=True)
         cmds.select(self.control)
-        return self.control[0]
+        self.control = self.get_control_name()
+        return self.control
 
     def create_plus(self):
-        self.control = cmds.curve(name=self.name, degree=1,
-                             point=[(-0.33, 0.0, -1.0), (-0.33, 0.0, -0.33), (-1.0, 0.0, -0.33), (-1.0, 0.0, 0.33),
-                                    (-0.33, 0.0, 0.33), (-0.33, 0.0, 1.0), (0.33, 0.0, 1.0), (0.33, 0.0, 0.33),
-                                    (1.0, 0.0, 0.33), (1.0, 0.0, -0.33), (0.33, 0.0, -0.33), (0.33, 0.0, -1.0),
-                                    (-0.33, 0.0, -1.0)])
+        self.control = cmds.curve(name=self.name, degree=1, point=[(-0.33, 0.0, -1.0), (-0.33, 0.0, -0.33),
+                                                                   (-1.0, 0.0, -0.33), (-1.0, 0.0, 0.33),
+                                                                   (-0.33, 0.0, 0.33), (-0.33, 0.0, 1.0),
+                                                                   (0.33, 0.0, 1.0), (0.33, 0.0, 0.33),
+                                                                   (1.0, 0.0, 0.33), (1.0, 0.0, -0.33),
+                                                                   (0.33, 0.0, -0.33), (0.33, 0.0, -1.0),
+                                                                   (-0.33, 0.0, -1.0)])
         shape = cmds.listRelatives(self.control, shapes=True)[0]
         cmds.rename(shape, '{}Shape'.format(self.control))
         cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control))

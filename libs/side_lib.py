@@ -2,6 +2,7 @@
 Sides for nodes in maya
 """
 
+
 center = 'c'
 left = 'l'
 right = 'r'
@@ -10,6 +11,7 @@ right = 'r'
 def get_opposite_side(side):
     """
     Get the opposite side
+    :param: str
     :return: opposite side
     """
     if side == left:

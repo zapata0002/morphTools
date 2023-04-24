@@ -31,6 +31,7 @@ pole_vector_constraint = 'pvcns'
 geometry = 'geo'
 trigger = 'trg'
 driver = 'driver'
+bind = 'bind'
 
 # Deformers
 skin_cluster = 'skin'
