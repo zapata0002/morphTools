@@ -73,7 +73,8 @@ def create_parent_constraint(driver, driven, *args, **kwargs):
     """
     return cmds.parentConstraint(driver,
                                  driven,
-                                 name=format_constraint_name(driven, usage_lib.parent_constraint), maintainOffset=True,
+                                 name=format_constraint_name(driven, usage_lib.parent_constraint),
+                                 maintainOffset=True,
                                  *args, **kwargs)
 
 

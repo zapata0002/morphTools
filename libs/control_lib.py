@@ -1,9 +1,34 @@
 # Imports
 import maya.cmds as cmds
-from maya_lib.libs import shape_lib, usage_lib, connexion_lib
+from maya_lib.libs import shape_lib, usage_lib, connection_lib, connection_lib
 import importlib
 
 importlib.reload(shape_lib)
+
+
+def build_control(descriptor, side, shape, scale):
+	"""
+	Build control
+	:param descriptor: str
+	:param side: str
+	:param shape: str
+	"""
+	if shape:
+		control_node = shape_lib.ShapeLib(type=shape, name='{}_{}_{}'.format(descriptor, side, usage_lib.control),
+										  color=17, scale=scale)
+		# Create zero node
+		control_zero = cmds.createNode('transform', name='{}{}_{}_{}'.format(descriptor, usage_lib.control.capitalize(),
+																			 side, usage_lib.zero))
+		cmds.parent(control_node.control, control_zero)
+
+	else:
+		control_node = cmds.createNode('transform', name='{}_{}_{}'.format(descriptor, side, usage_lib.control))
+	# Get the name of the control node
+	control_node = control_node.get_control_name()
+	# Return the name of the control node
+	return control_node, control_zero
+
+
 
 """
 def build_control_from_guides(transform_selected_list, shape_type, jnt_usage, connexion_type):
@@ -81,27 +106,5 @@ def build_control_from_guides(transform_selected_list, shape_type, jnt_usage, co
 """
 
 
-def build_control(descriptor, side, shape, scale):
-	"""
-	Build control
-	:param descriptor: str
-	:param side: str
-	:param shape: str
-	"""
-	if shape:
-		control_node = shape_lib.ShapeLib(type=shape, name='{}_{}_{}'.format(descriptor, side, usage_lib.control),
-										  color=17, scale=scale)
-		# Create zero node
-		control_zero = cmds.createNode('transform', name='{}{}_{}_{}'.format(descriptor, usage_lib.control.capitalize(),
-																			 side, usage_lib.zero))
-		print(control_node.control, control_zero)
-		cmds.parent(control_node.control, control_zero)
 
-	else:
-		control_node = cmds.createNode('transform', name='{}_{}_{}'.format(descriptor, side, usage_lib.control))
-	# Get the name of the control node
-	control_node = control_node.get_control_name()
-	# Return the name of the control node
-
-	return control_node, control_zero
 

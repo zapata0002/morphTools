@@ -85,13 +85,12 @@ class ShapeLib:
             return self.name
 
     def create_circle(self, degree=3, sections=8):
-        self.control = cmds.circle(name=self.name, degree=degree, normal=(0, 1, 0), sections=sections)
+        self.control = cmds.circle(name=self.name, degree=degree, normal=(0, 1, 0), sections=sections)[0]
         shape = cmds.listRelatives(self.control, shapes=True)[0]
-        cmds.rename(shape, '{}Shape'.format(self.control[0]))
-        cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control[0]))
+        cmds.rename(shape, '{}Shape'.format(self.control))
+        cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control))
         cmds.delete(self.control, constructionHistory=True)
-        cmds.select(self.control[0])
-        self.control = self.get_control_name()
+        cmds.select(self.control)
         return self.control
 
     def create_triangle(self):
@@ -101,7 +100,7 @@ class ShapeLib:
         cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control[0]))
         cmds.delete(self.control, constructionHistory=True)
         cmds.select(self.control[0])
-        return self.control[0]
+        return self.control
 
     def create_square(self):
         self.control = cmds.curve(name=self.name, degree=1, point=[(-1, 0, -1), (-1, 0, 1), (1, 0, 1), (1, 0, -1),
@@ -111,7 +110,6 @@ class ShapeLib:
         cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control))
         cmds.delete(self.control, constructionHistory=True)
         cmds.select(self.control)
-        self.control = self.get_control_name()
         return self.control
 
     def create_plus(self):
@@ -127,38 +125,38 @@ class ShapeLib:
         cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control))
         cmds.delete(self.control, constructionHistory=True)
         cmds.select(self.control)
-        return self.control[0]
+        return self.control
 
     def create_star(self):
-        self.control = cmds.circle(name=self.name, degree=1, sections=10, normal=(0, 1, 0))
+        self.control = cmds.circle(name=self.name, degree=1, sections=10, normal=(0, 1, 0))[0]
         cmds.scale(0.5, 0.5, 0.5, curve_lib.odd_cvs(self.control[0]), relative=True)
         cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control[0]))
         shape = cmds.listRelatives(self.control, shapes=True)[0]
         cmds.rename(shape, '{}Shape'.format(self.control[0]))
         cmds.delete(self.control, constructionHistory=True)
-        cmds.select(self.control[0])
-        return self.control[0]
+        cmds.select(self.control)
+        return self.control
 
     def create_arrow(self):
-        self.control = cmds.curve(name=self.name, degree=1, point=[(-0.5, 0.0, -1.0), (0.5,0.0, -1.0), (0.5, 0.0, 0.0),
-                                                                (1.0, 0.0, 0.0), (0.0, 0.0, 1.0), (-1.0, 0.0, 0.0),
-                                                                (-0.5, 0.0, 0.0), (-0.5, 0.0, -1.0)])
+        self.control = cmds.curve(name=self.name, degree=1, point=[(-0.5, 0.0, -1.0), (0.5, 0.0, -1.0), (0.5, 0.0, 0.0),
+                                                                   (1.0, 0.0, 0.0), (0.0, 0.0, 1.0), (-1.0, 0.0, 0.0),
+                                                                   (-0.5, 0.0, 0.0), (-0.5, 0.0, -1.0)])
         shape = cmds.listRelatives(self.control, shapes=True)[0]
         cmds.rename(shape, '{}Shape'.format(self.control))
         cmds.scale(1 * self.scale, 1 * self.scale, 1 * self.scale, '{}.cv[*]'.format(self.control))
         cmds.delete(self.control, constructionHistory=True)
         cmds.select(self.control)
-        return self.control[0]
+        return self.control
 
     def create_splash(self):
-        self.control = cmds.circle(name=self.name, degree=3, sections=8, normal=(0, 1, 0))
+        self.control = cmds.circle(name=self.name, degree=3, sections=8, normal=(0, 1, 0))[0]
         cmds.scale(0.05, 0.05, 0.05, curve_lib.even_cvs(self.control[0])[:-2], relative=True)
         cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control[0]))
         shape = cmds.listRelatives(self.control, shapes=True)[0]
         cmds.rename(shape, '{}Shape'.format(self.control[0]))
         cmds.delete(self.control, constructionHistory=True)
-        cmds.select(self.control[0])
-        return self.control[0]
+        cmds.select(self.control)
+        return self.control
 
     def create_general(self):
         self.control = cmds.curve(name=self.name, degree=1, point=[(-0.6411898986754146, 0.005116290412843227, 0.1585763273843136), (-0.729070580862966, 0.0108537832275033, 0.15857640054627256),

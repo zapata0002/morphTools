@@ -1,9 +1,10 @@
 # Imports
 import importlib
 from maya import cmds
-from maya_lib.libs import usage_lib, side_lib, math_lib, module_lib, control_lib, connection_lib, curve_lib
+from maya_lib.libs import usage_lib, side_lib, math_lib, module_lib, control_lib, connection_lib, curve_lib, \
+    deformer_lib
 
-importlib.reload(control_lib)
+importlib.reload(attribute_lib)
 
 
 def build_spine(pelvis_guide, chest_guide, fk_controls, joint_number):
@@ -57,9 +58,9 @@ def build_spine(pelvis_guide, chest_guide, fk_controls, joint_number):
     spine_fk_zeros = []
     for index in range(fk_controls):
         spine_fk_control, spine_fk_zero = control_lib.build_control('{}Fk{:02d}'.format(module_lib.spine, index+1),
-                                                                    side_lib.center, 'square', 3)
+                                                                    side_lib.center, 'circle', 3)
         if previous_fk_control:
-            (cmds.parent(spine_fk_zero, previous_fk_control))
+            cmds.parent(spine_fk_zero, previous_fk_control)
         cmds.move(0, move_spine_fk_y, 0, spine_fk_zero, objectSpace=True)
         spine_fk_controls.append(spine_fk_control)
         spine_fk_zeros.append(spine_fk_zero)
@@ -69,19 +70,19 @@ def build_spine(pelvis_guide, chest_guide, fk_controls, joint_number):
     cmds.xform(spine_fk_zeros[0], matrix=pelvis_matrix, worldSpace=True)
     cmds.parent(spine_fk_zeros[0], 'controls_c_grp')  # Replace the group with a variable
     # Create pelvis control and joint
-    pelvis_control, pelvis_zero = control_lib.build_control(module_lib.pelvis, side_lib.center, 'circle', 5)
-    pelvis_joint = cmds.createNode('joint', name='{}_{}_{}'.format(module_lib.pelvis, side_lib.center, usage_lib.curve_skin_joint))
+    pelvis_control, pelvis_zero = control_lib.build_control(module_lib.pelvis, side_lib.center, 'allDirections3D', 5)
+    pelvis_joint = deformer_lib.build_joint(pelvis_control, usage_lib.skin_joint)
     # Move by matrix the control and joint to the guide position
-    cmds.xform(pelvis_control, matrix=pelvis_matrix, worldSpace=True)
+    cmds.xform(pelvis_zero, matrix=pelvis_matrix, worldSpace=True)
     cmds.xform(pelvis_joint, matrix=pelvis_matrix, worldSpace=True)
     connection_lib.create_parent_constraint(pelvis_control, pelvis_joint)
     cmds.parent(pelvis_zero, 'controls_c_grp')  # Replace the group with a variable
     cmds.parent(pelvis_joint, 'skeleton_c_grp')  # Replace the group with a variable
     # Create chest control and joint
     chest_control, chest_zero = control_lib.build_control(module_lib.chest, side_lib.center, 'circle', 5)
-    chest_joint = cmds.createNode('joint', name='{}_{}_{}'.format(module_lib.chest, side_lib.center, usage_lib.curve_skin_joint))
+    chest_joint = deformer_lib.build_joint(chest_control, usage_lib.skin_joint)
     # Move by matrix the control and joint to the guide position
-    cmds.xform(chest_control, matrix=chest_matrix, worldSpace=True)
+    cmds.xform(chest_zero, matrix=chest_matrix, worldSpace=True)
     cmds.xform(chest_joint, matrix=chest_matrix, worldSpace=True)
     connection_lib.create_parent_constraint(chest_control, chest_joint)
     cmds.parent(chest_zero, 'controls_c_grp')  # Replace the group with a variable

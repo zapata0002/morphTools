@@ -2,6 +2,10 @@ from maya import cmds
 import maya.cmds as cmds
 
 
+def build_joint(node, usage):
+    return cmds.createNode('joint', name='{}_{}_{}'.format(node.split('_')[0], node.split('_')[1], usage))
+
+
 # Select joints from geo
 def select_joints(transform_list=[]):
     if len(transform_list) == 0:

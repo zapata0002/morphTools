@@ -27,6 +27,9 @@
       </UrlAndAccount>
     </option>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/tools/renamer_tool_zapata.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -48,21 +51,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/luisi/Documents/maya/2023/scripts/maya_lib&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/luisi/Documents/maya/2023/scripts/maya_lib/libs",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;module&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\luisi\Documents\maya\2023\scripts\maya_lib\libs" />
@@ -114,7 +117,21 @@
       <option name="project" value="LOCAL" />
       <updated>1682363408403</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Create connection_lib&#10;Modify spine.py adding spine controls fk">
+      <created>1682363483974</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1682363483974</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Added attribute_lib.&#10;Creating control with any shape.&#10;Added type of asset into base.py for future tools.">
+      <created>1682454216550</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1682454216550</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -133,6 +150,7 @@
     <MESSAGE value="read me update" />
     <MESSAGE value="Create connection_lib&#10;Modify spine.py adding spine controls fk&#10;Has Error with the shapes (cmds.circle,cmds.curve) giving two arguments" />
     <MESSAGE value="Create connection_lib&#10;Modify spine.py adding spine controls fk" />
-    <option name="LAST_COMMIT_MESSAGE" value="Create connection_lib&#10;Modify spine.py adding spine controls fk" />
+    <MESSAGE value="Added attribute_lib.&#10;Creating control with any shape.&#10;Added type of asset into base.py for future tools." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added attribute_lib.&#10;Creating control with any shape.&#10;Added type of asset into base.py for future tools." />
   </component>
 </project>

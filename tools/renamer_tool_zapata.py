@@ -80,7 +80,8 @@ class RenamerWindow:
         cmds.showWindow()
 
 
-def search_and_replace(search_field, replace_field):
+def search_and_replace(search_field, replace_field, *args):
+
     cmds.undoInfo(openChunk=True)
     search_field = cmds.textField(search_field, query=True, text=True)
     replace_field = cmds.textField(replace_field, query=True, text=True)
@@ -97,7 +98,7 @@ def search_and_replace(search_field, replace_field):
     cmds.undoInfo(closeChunk=True)
 
 
-def add_prefix(prefix_field):
+def add_prefix(prefix_field, *args):
     cmds.undoInfo(openChunk=True)
     prefix_field = cmds.textField(prefix_field, query=True, text=True)
     selected_list = cmds.ls(sl=True)
@@ -112,7 +113,7 @@ def add_prefix(prefix_field):
     cmds.undoInfo(closeChunk=True)
 
 
-def add_suffix(suffix_field):
+def add_suffix(suffix_field, *args):
     cmds.undoInfo(openChunk=True)
     suffix_field = cmds.textField(suffix_field, query=True, text=True)
     selected_list = cmds.ls(sl=True)
@@ -127,7 +128,7 @@ def add_suffix(suffix_field):
     cmds.undoInfo(closeChunk=True)
 
 
-def rename_and_number(rename_field, start_number_field, padding_field, rename_prefix_field, rename_suffix_field):
+def rename_and_number(rename_field, start_number_field, padding_field, rename_prefix_field, rename_suffix_field, *args):
     cmds.undoInfo(openChunk=True)
     rename_field = cmds.textField(rename_field, query=True, text=True)
     start_number_field = cmds.intField(start_number_field, query=True, value=True)
@@ -162,7 +163,9 @@ def rename_and_number(rename_field, start_number_field, padding_field, rename_pr
 
 def clear_text_filed(search_field, replace_field,
                      prefix_field, suffix_field,
-                     rename_field, start_number_field, padding_field, rename_prefix_field, rename_suffix_field):
+                     rename_field, start_number_field,
+                     padding_field, rename_prefix_field,
+                     rename_suffix_field, *args):
     cmds.textField(search_field, edit=True, text='')
     cmds.textField(replace_field, edit=True, text='')
     cmds.textField(prefix_field, edit=True, text='')
