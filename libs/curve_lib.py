@@ -1,6 +1,8 @@
 # Imports
 import maya.cmds as cmds
-
+from maya_lib.libs import usage_lib, attribute_lib
+import importlib
+importlib.reload(attribute_lib)
 """
 #Import shape_lib module
 from maya_lib.libs import curve_lib
@@ -43,14 +45,111 @@ def get_curve_data(crv):
     return crv_data
 
 
-def build_curve_from_transforms_list(name=None, transform_list=None, degree=3, construction_history=False, parent_curve_on_root=False):
+def stretch_curve(crv, joint_list):
+    crv_shape = cmds.listRelatives(crv, shapes=True)[0]
+    cinfo_node = cmds.createNode('curveInfo', name='{}_{}_{}'.format(crv.split('_')[0], crv.split('_')[1],
+                                                                     usage_lib.curve_info))
+    norm_node = cmds.createNode('multiplyDivide', name='{}_{}_{}'.format(crv.split('_')[0], crv.split('_')[1],
+                                                                         usage_lib.norm))
+    cmds.setAttr('{}.operation'.format(norm_node), 2)
+    cmds.connectAttr('{}.worldSpace[0]'.format(crv_shape), '{}.inputCurve'.format(cinfo_node))
+    cmds.connectAttr('{}.arcLength'.format(cinfo_node), '{}.input1.input1X'.format(norm_node))
+    crv_length = cmds.getAttr('{}.arcLength'.format(cinfo_node))
+    cmds.setAttr('{}.input2.input2X'.format(norm_node), crv_length)
+    global_norm_node = cmds.createNode('multiplyDivide', name='{}GlobalScale_{}_{}'.format(crv.split('_')[0],
+                                                                                           crv.split('_')[1],
+                                                                                           usage_lib.norm))
+    cmds.setAttr('{}.operation'.format(global_norm_node), 2)
+    cmds.connectAttr('{}.output.outputX'.format(norm_node), '{}.input1.input1X'.format(global_norm_node))
+    for jnt in joint_list:
+        mult_node = cmds.createNode('multDoubleLinear', name='{}{}_{}_{}'.format(jnt.split('_')[0],
+                                                                                 jnt.split('_')[2].capitalize(),
+                                                                                 jnt.split('_')[1],
+                                                                                 usage_lib.multiply))
+        jnt_distance = cmds.getAttr('{}.translate.translateX'.format(jnt))
+        cmds.setAttr('{}.input1'.format(mult_node), jnt_distance)
+        cmds.connectAttr('{}.output.outputX'.format(global_norm_node), '{}.input2'.format(mult_node))
+        cmds.connectAttr('{}.output'.format(mult_node), '{}.translate.translateX'.format(jnt))
+
+
+def auto_squash(joint_list, module):
+    """
+    Auto squash system
+    :param joint_list: list
+    :param module: str
+
+    :return: crv_data
+    """
+    # Create bc and sub nodes
+    bc_node = cmds.createNode('blendColors', name='{}AutoSquash_{}_{}'.format(module.split('_')[0],
+                                                                              joint_list[0].split('_')[1],
+                                                                              usage_lib.blend_color))
+    sub_node = cmds.createNode('plusMinusAverage', name='{}_{}_{}'.format(module.split('_')[0],
+                                                                          joint_list[0].split('_')[1],
+                                                                          usage_lib.sub))
+    # Connect bc and sub
+    cmds.connectAttr('{}.output.outputR'.format(bc_node), '{}.input3D[0].input3Dx'.format(sub_node))
+    cmds.connectAttr('{}.output.outputG'.format(bc_node), '{}.input3D[0].input3Dy'.format(sub_node))
+    # Set sub noden
+    cmds.setAttr('{}.operation'.format(sub_node), 2)
+    cmds.setAttr('{}.input3D[1].input3Dx'.format(sub_node), 1)
+    cmds.setAttr('{}.input3D[1].input3Dy'.format(sub_node), 1)
+    # Create auto squash null values
+    null_node = cmds.createNode('transform', name='{}AutoSquashValues_{}_{}'.format(module.split('_')[0],
+                                                                                    joint_list[0].split('_')[1],
+                                                                                    usage_lib.null))
+    # Parent to spineSystem_c_grp
+    cmds.parent(null_node, 'spineSystem_c_grp')
+    # Lock and hide attributes
+    attr_list = []
+    for attr in ['translate', 'rotate', 'scale']:
+        for axis in ['X', 'Y', 'Z']:
+            attr_name = '{}{}'.format(attr, axis)
+            attr_list.append(attr_name)
+    null_helper = attribute_lib.Helper(null_node)
+    null_helper.lock_and_hide_attributes(attr_list)
+    current_squash_value = 0
+    for jnt in joint_list:
+        # Create attribute
+        squash_value = null_helper.add_float_attribute('{}'.format(jnt.split('_')[0]))
+        # Create mult and sum nodes
+        mult_node = cmds.createNode('multiplyDivide', name='{}AutoSquash_{}_{}'.format(jnt.split('_')[0],
+                                                                                       jnt.split('_')[1],
+                                                                                       usage_lib.multiply))
+        add_node = cmds.createNode('plusMinusAverage', name='{}AutoSquash_{}_{}'.format(jnt.split('_')[0],
+                                                                                        jnt.split('_')[1],
+                                                                                        usage_lib.add))
+        # Set mult and sum nodes
+        cmds.setAttr('{}.operation'.format(mult_node), 1)
+        cmds.setAttr('{}.input2X'.format(mult_node), 1)
+        cmds.setAttr('{}.input2Y'.format(mult_node), 1)
+        cmds.setAttr('{}.operation'.format(add_node), 1)
+        cmds.setAttr('{}.input3D[1].input3Dx'.format(add_node), 1)
+        cmds.setAttr('{}.input3D[1].input3Dy'.format(add_node), 1)
+        # Set squash values
+        cmds.setAttr('{}.{}'.format(null_node, squash_value), current_squash_value)
+        if current_squash_value < 1:
+            current_squash_value = 1/(len(joint_list)-1)
+        cmds.connectAttr('{}.{}'.format(null_node, squash_value), '{}.input2.input2X'.format(mult_node))
+        cmds.connectAttr('{}.{}'.format(null_node, squash_value), '{}.input2.input2Y'.format(mult_node))
+        # Connect nodes
+        cmds.connectAttr('{}.output3D.output3Dx'.format(sub_node), '{}.input1X'.format(mult_node))
+        cmds.connectAttr('{}.output3D.output3Dy'.format(sub_node), '{}.input1Y'.format(mult_node))
+        cmds.connectAttr('{}.output.outputX'.format(mult_node), '{}.input3D[0].input3Dx'.format(add_node))
+        cmds.connectAttr('{}.output.outputY'.format(mult_node), '{}.input3D[0].input3Dy'.format(add_node))
+        cmds.connectAttr('{}.output3D.output3Dx'.format(add_node), '{}.scale.scaleY'.format(jnt))
+        cmds.connectAttr('{}.output3D.output3Dx'.format(add_node), '{}.scale.scaleZ'.format(jnt))
+
+
+def build_curve_from_transforms_list(name=None, transform_list=None, degree=3, construction_history=False,
+                                     parent_curve_on_root=False):
     for transform in transform_list:
         if not cmds.objExists(transform):
             raise Exception('given object does not exists in the scene: "{}"'.format(transform))
         if cmds.objectType(transform) not in ['transform', 'joint']:
             raise Exception('given object " {} " is not a transform'.format(transform))
     if len(transform_list) < degree+1:
-        raise Exception('given transform_list need to have {} objects'.format(self.degree+1))
+        raise Exception('given transform_list need to have {} objects'.format(degree+1))
     # Build curve from transforms
     if len(transform_list[0].split('_')) == 2:
         curve_name = transform_list[0].replace('_loc', '_crv')
@@ -108,27 +207,3 @@ def even_cvs(crv):
     cv_count = cmds.getAttr(crv + '.spans') + cmds.getAttr(crv + '.degree')
     cv_list = ['{}.cv[{}]'.format(crv, i) for i in range(cv_count) if i % 2 == 0]
     return cv_list
-
-
-def stretch_curve(crv, joint_list):
-    crv_shape = cmds.listRelatives(crv, shapes=True)[0]
-    cinfo_node = cmds.createNode('curveInfo', name='{}_{}_cinfo'.format(crv.split('_')[0], crv.split('_')[1]))
-    norm_node = cmds.createNode('multiplyDivide', name='{}_{}_norm'.format(crv.split('_')[0], crv.split('_')[1]))
-    global_norm_node = cmds.createNode('multiplyDivide', name='{}GlobalScale_{}_norm'.format(crv.split('_')[0],
-                                                                                             crv.split('_')[1]))
-    cmds.setAttr('{}.operation'.format(norm_node), 2)
-    cmds.setAttr('{}.operation'.format(global_norm_node), 2)
-    cmds.connectAttr('{}.worldSpace[0]'.format(crv_shape), '{}.inputCurve'.format(cinfo_node))
-    cmds.connectAttr('{}.arcLength'.format(cinfo_node), '{}.input1.input1X'.format(norm_node))
-    cmds.connectAttr('{}.output.outputX'.format(norm_node), '{}.input1.input1X'.format(global_norm_node))
-    crv_lenght = cmds.getAttr('{}.arcLength'.format(cinfo_node))
-    cmds.setAttr('{}.input2.input2X'.format(norm_node), crv_lenght)
-    for jnt in joint_list:
-        mult_node = cmds.createNode('multDoubleLinear', name='{}{}_{}_mult'.format(jnt.split('_')[0],
-                                                                                   jnt.split('_')[2].capitalize(),
-                                                                                   jnt.split('_')[1]))
-        jnt_distance = cmds.getAttr('{}.translate.translateX'.format(jnt))
-        cmds.setAttr('{}.input1'.format(mult_node), jnt_distance)
-        cmds.connectAttr('{}.output.outputX'.format(global_norm_node), '{}.input2'.format(mult_node))
-        cmds.connectAttr('{}.output'.format(mult_node), '{}.translate.translateX'.format(jnt))
-

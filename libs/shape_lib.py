@@ -94,12 +94,12 @@ class ShapeLib:
         return self.control
 
     def create_triangle(self):
-        self.control = cmds.circle(name=self.name, degree=1, sections=3, normal=(0, 1, 0))
+        self.control = cmds.circle(name=self.name, degree=1, sections=3, normal=(0, 1, 0))[0]
         shape = cmds.listRelatives(self.control, shapes=True)[0]
         cmds.rename(shape, '{}Shape'.format(self.control[0]))
-        cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control[0]))
+        cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control))
         cmds.delete(self.control, constructionHistory=True)
-        cmds.select(self.control[0])
+        cmds.select(self.control)
         return self.control
 
     def create_square(self):

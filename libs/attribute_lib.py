@@ -1,6 +1,5 @@
 # Maya imports
 from maya import cmds
-from maya_lib.libs import connection_lib
 
 class Helper(object):
     def __init__(self, name):
@@ -117,7 +116,6 @@ class Helper(object):
             self.add_attribute(separator_name, niceName=' ', attributeType='enum',
                                enumName=separator_name)
             self.keyable_attribute(separator_name, keyable=False)
-            self.lock_attribute(separator_name)
 
         return separator_name
 
@@ -193,7 +191,7 @@ class Helper(object):
         cmds.setAttr('{}.{}'.format(self.name, attribute_name), text, type='string')
         return attribute_name
 
-    def global_scale_attribute(self, attribute_name='globalSale'):
+    def global_scale_attribute(self, attribute_name='globalScale'):
         """
         Add a global scale attribute
         :param attribute_name: str
@@ -202,8 +200,7 @@ class Helper(object):
         global_scale_attr = self.add_float_attribute(attribute_name, keyable=True, minValue=0.01, defaultValue=1)
         for axis in ['X', 'Y', 'Z']:
             cmds.connectAttr('{}.{}'.format(self.name, attribute_name),
-                             '{}.scale.scale{}'.format(self.name, axis),
-                             force=True)
+                             '{}.scale.scale{}'.format(self.name, axis), force=True)
             self.hide_attribute(attribute_name='scale.scale{}'.format(axis), hide=True)
         return global_scale_attr
 

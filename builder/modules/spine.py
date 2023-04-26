@@ -2,9 +2,9 @@
 import importlib
 from maya import cmds
 from maya_lib.libs import usage_lib, side_lib, math_lib, module_lib, control_lib, connection_lib, curve_lib, \
-    deformer_lib
+    deformer_lib, attribute_lib
 
-importlib.reload(attribute_lib)
+importlib.reload(curve_lib)
 
 
 def build_spine(pelvis_guide, chest_guide, fk_controls, joint_number):
@@ -15,10 +15,19 @@ def build_spine(pelvis_guide, chest_guide, fk_controls, joint_number):
     :param fk_controls: str
     :param joint_number: int
     """
+    # Basic groups for the spine
+    body_grp = '{}{}_{}_{}'.format(module_lib.body, module_lib.system.capitalize(), side_lib.center, usage_lib.group)
+    skeleton_grp = '{}_{}_{}'.format(module_lib.skeleton, side_lib.center, usage_lib.group)
+    general_ctr = '{}_{}_{}'.format(module_lib.general, side_lib.center, usage_lib.control)
+    for axis in ['X', 'Y', 'Z']:
+        cmds.connectAttr('{}.globalScale'.format(general_ctr),
+                         '{}.scale.scale{}'.format(skeleton_grp, axis),
+                         force=True)
+    center_ctr = '{}_{}_{}'.format(module_lib.center, side_lib.center, usage_lib.control)
     spine_grp = cmds.createNode('transform', name='{}{}_{}_{}'.format(module_lib.spine,
-                                                                      module_lib.systems.capitalize()[:-1],
+                                                                      module_lib.system.capitalize(),
                                                                       side_lib.center, usage_lib.group))
-    cmds.parent(spine_grp, 'bodySystem_c_grp')
+    cmds.parent(spine_grp, body_grp)
     pelvis_matrix = cmds.xform(pelvis_guide, query=True, matrix=True, worldSpace=True)
     chest_matrix = cmds.xform(chest_guide, query=True, matrix=True, worldSpace=True)
     # Distance between  pelvis and chest
@@ -41,13 +50,13 @@ def build_spine(pelvis_guide, chest_guide, fk_controls, joint_number):
     pelvis_translation = cmds.xform(pelvis_guide, query=True, translation=True, worldSpace=True)
     cmds.xform(spine_list[0], translation=pelvis_translation, worldSpace=True)
     # Parent into skeleton grp
-    cmds.parent(spine_list[0], 'skeleton_c_grp')  # Replace the group with a variable
+    cmds.parent(spine_list[0], skeleton_grp)
     # Create spine ik spline
     spine_iks, spine_eff, spine_crv = cmds.ikHandle(startJoint=spine_list[0], endEffector=spine_list[-1],
-                                                  name='{}_{}_{}'.format(module_lib.spine,
-                                                                         spine_list[0].split('_')[1],
-                                                                         usage_lib.ik_spline),
-                                                  solver='ikSplineSolver', createCurve=True, simplifyCurve=True)
+                                                    name='{}_{}_{}'.format(module_lib.spine,
+                                                                           spine_list[0].split('_')[1],
+                                                                           usage_lib.ik_spline),
+                                                    solver='ikSplineSolver', createCurve=True, simplifyCurve=True)
     cmds.rename(spine_eff, '{}_{}_{}'.format(module_lib.spine, side_lib.center, usage_lib.effector))
     spine_crv = cmds.rename(spine_crv, '{}_{}_{}'.format(module_lib.spine, side_lib.center, usage_lib.curve))
     cmds.parent(spine_iks, spine_crv, spine_grp)
@@ -58,7 +67,7 @@ def build_spine(pelvis_guide, chest_guide, fk_controls, joint_number):
     spine_fk_zeros = []
     for index in range(fk_controls):
         spine_fk_control, spine_fk_zero = control_lib.build_control('{}Fk{:02d}'.format(module_lib.spine, index+1),
-                                                                    side_lib.center, 'circle', 3)
+                                                                    side_lib.center, 'square', 3)
         if previous_fk_control:
             cmds.parent(spine_fk_zero, previous_fk_control)
         cmds.move(0, move_spine_fk_y, 0, spine_fk_zero, objectSpace=True)
@@ -68,25 +77,28 @@ def build_spine(pelvis_guide, chest_guide, fk_controls, joint_number):
         if move_spine_fk_y < 1:
             move_spine_fk_y = distance_pelvis_chest/(fk_controls-0.5)
     cmds.xform(spine_fk_zeros[0], matrix=pelvis_matrix, worldSpace=True)
-    cmds.parent(spine_fk_zeros[0], 'controls_c_grp')  # Replace the group with a variable
+    cmds.parent(spine_fk_zeros[0], center_ctr)
     # Create pelvis control and joint
     pelvis_control, pelvis_zero = control_lib.build_control(module_lib.pelvis, side_lib.center, 'allDirections3D', 5)
-    pelvis_joint = deformer_lib.build_joint(pelvis_control, usage_lib.skin_joint)
+    pelvis_joint, pelvis_joint_zero = deformer_lib.build_joint(pelvis_control, usage_lib.skin_joint, True)
     # Move by matrix the control and joint to the guide position
     cmds.xform(pelvis_zero, matrix=pelvis_matrix, worldSpace=True)
-    cmds.xform(pelvis_joint, matrix=pelvis_matrix, worldSpace=True)
+    cmds.xform(pelvis_joint_zero, matrix=pelvis_matrix, worldSpace=True)
     connection_lib.create_parent_constraint(pelvis_control, pelvis_joint)
-    cmds.parent(pelvis_zero, 'controls_c_grp')  # Replace the group with a variable
-    cmds.parent(pelvis_joint, 'skeleton_c_grp')  # Replace the group with a variable
+    cmds.parent(pelvis_zero, center_ctr)
+    cmds.parent(pelvis_joint_zero, skeleton_grp)
     # Create chest control and joint
     chest_control, chest_zero = control_lib.build_control(module_lib.chest, side_lib.center, 'circle', 5)
-    chest_joint = deformer_lib.build_joint(chest_control, usage_lib.skin_joint)
+    chest_joint, chest_joint_zero = deformer_lib.build_joint(chest_control, usage_lib.skin_joint, True)
+    chest_helper = attribute_lib.Helper(chest_control)
+    chest_helper.add_separator_attribute('attributes')
+    chest_helper.add_float_attribute('autoSquash', minValue=0, maxValue=1, defaultValue=1)
     # Move by matrix the control and joint to the guide position
     cmds.xform(chest_zero, matrix=chest_matrix, worldSpace=True)
-    cmds.xform(chest_joint, matrix=chest_matrix, worldSpace=True)
+    cmds.xform(chest_joint_zero, matrix=chest_matrix, worldSpace=True)
     connection_lib.create_parent_constraint(chest_control, chest_joint)
-    cmds.parent(chest_zero, 'controls_c_grp')  # Replace the group with a variable
-    cmds.parent(chest_joint, 'skeleton_c_grp')  # Replace the group with a variable
+    cmds.parent(chest_zero, center_ctr)
+    cmds.parent(chest_joint_zero, skeleton_grp)
 
     spine_skin = cmds.skinCluster(pelvis_joint, chest_joint, spine_crv,
                                   name='{}{}_{}_{}'.format(spine_crv.split('_')[0],
@@ -97,3 +109,8 @@ def build_spine(pelvis_guide, chest_guide, fk_controls, joint_number):
     # Stretch system
     curve_lib.stretch_curve(spine_crv, spine_list)
     connection_lib.create_parent_constraint(spine_fk_controls[-1], chest_zero)
+    cmds.connectAttr('{}.globalScale'.format(general_ctr), '{}GlobalScale_{}_{}.input2.input2X'.format(module_lib.spine,
+                                                                                                       side_lib.center,
+                                                                                                       usage_lib.norm))
+    # Squash system
+    curve_lib.auto_squash(spine_list[:-1], module_lib.spine)

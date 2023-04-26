@@ -1,9 +1,25 @@
 from maya import cmds
 import maya.cmds as cmds
+from maya_lib.libs import usage_lib
+import importlib
+importlib.reload(usage_lib)
 
 
-def build_joint(node, usage):
-    return cmds.createNode('joint', name='{}_{}_{}'.format(node.split('_')[0], node.split('_')[1], usage))
+def build_joint(node, usage, zero):
+    """
+    Build joint
+    :param node: str
+    :param usage: str
+    :param zero: boolean
+    """
+    joint_node = cmds.createNode('joint', name='{}_{}_{}'.format(node.split('_')[0], node.split('_')[1], usage))
+    if zero:
+        joint_zero = cmds.createNode('transform', name='{}{}_{}_{}'.format(node.split('_')[0], usage.capitalize(),
+                                                                           node.split('_')[1], usage_lib.zero))
+        cmds.parent(joint_node, joint_zero)
+        return joint_node, joint_zero
+    else:
+        return joint_node
 
 
 # Select joints from geo
