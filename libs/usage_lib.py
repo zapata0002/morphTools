@@ -37,7 +37,8 @@ bind = 'bind'
 skin_cluster = 'skin'
 blend_shape = 'bs'
 corrective = 'crr'
-
+cluster = 'cls'
+cluster_handle = 'clsh'
 
 multiply = 'mult'
 divide = 'div'

@@ -70,6 +70,7 @@ def stretch_curve(crv, joint_list):
         cmds.setAttr('{}.input1'.format(mult_node), jnt_distance)
         cmds.connectAttr('{}.output.outputX'.format(global_norm_node), '{}.input2'.format(mult_node))
         cmds.connectAttr('{}.output'.format(mult_node), '{}.translate.translateX'.format(jnt))
+    return global_norm_node
 
 
 def auto_squash(joint_list, module):
@@ -108,10 +109,9 @@ def auto_squash(joint_list, module):
             attr_list.append(attr_name)
     null_helper = attribute_lib.Helper(null_node)
     null_helper.lock_and_hide_attributes(attr_list)
-    current_squash_value = 0
-    for jnt in joint_list:
+    for index, jnt in enumerate(joint_list):
         # Create attribute
-        squash_value = null_helper.add_float_attribute('{}'.format(jnt.split('_')[0]))
+        squash_attr = null_helper.add_float_attribute('{}'.format(jnt.split('_')[0]))
         # Create mult and sum nodes
         mult_node = cmds.createNode('multiplyDivide', name='{}AutoSquash_{}_{}'.format(jnt.split('_')[0],
                                                                                        jnt.split('_')[1],
@@ -127,11 +127,16 @@ def auto_squash(joint_list, module):
         cmds.setAttr('{}.input3D[1].input3Dx'.format(add_node), 1)
         cmds.setAttr('{}.input3D[1].input3Dy'.format(add_node), 1)
         # Set squash values
-        cmds.setAttr('{}.{}'.format(null_node, squash_value), current_squash_value)
-        if current_squash_value < 1:
-            current_squash_value = 1/(len(joint_list)-1)
-        cmds.connectAttr('{}.{}'.format(null_node, squash_value), '{}.input2.input2X'.format(mult_node))
-        cmds.connectAttr('{}.{}'.format(null_node, squash_value), '{}.input2.input2Y'.format(mult_node))
+        joint_number = len(joint_list)
+        if index == 0 or index == joint_number - 1:
+            squash_value = 1
+        else:
+            squash_value = (index / ((joint_number - 1) / 2)) / 2
+            if squash_value > 1:
+                squash_value = (2 - squash_value)
+        cmds.setAttr('{}.{}'.format(null_node, squash_attr), squash_value)
+        cmds.connectAttr('{}.{}'.format(null_node, squash_attr), '{}.input2.input2X'.format(mult_node))
+        cmds.connectAttr('{}.{}'.format(null_node, squash_attr), '{}.input2.input2Y'.format(mult_node))
         # Connect nodes
         cmds.connectAttr('{}.output3D.output3Dx'.format(sub_node), '{}.input1X'.format(mult_node))
         cmds.connectAttr('{}.output3D.output3Dy'.format(sub_node), '{}.input1Y'.format(mult_node))
@@ -139,6 +144,46 @@ def auto_squash(joint_list, module):
         cmds.connectAttr('{}.output.outputY'.format(mult_node), '{}.input3D[0].input3Dy'.format(add_node))
         cmds.connectAttr('{}.output3D.output3Dx'.format(add_node), '{}.scale.scaleY'.format(jnt))
         cmds.connectAttr('{}.output3D.output3Dx'.format(add_node), '{}.scale.scaleZ'.format(jnt))
+    return bc_node
+'''
+import math
+
+num_list = []
+num_elements = 11
+middle_joint = num_elements / 2
+for index in range(num_elements):
+    if index == 0 or index == num_elements-1:
+        value = 1
+        print(index, value)
+    elif num_elements % 2 == 0:
+        print('par')
+        if index == middle_joint or index == math.floor(middle_joint-1):
+            value = 0.5
+            print(index, value)
+        elif index == math.floor(middle_joint):
+            value = 0.55
+            print(index, value)
+        elif index > 0 and index < middle_joint:
+            value = .25
+            print(index, value)
+        elif index < num_elements and index > middle_joint:
+            value = .75
+            print(index, value)
+    elif num_elements % 2 == 1:
+        print('impar')
+        if index == math.floor(middle_joint):
+            value = 0.5
+            print(index, value)
+        elif index > 0 and index < middle_joint:
+            value = 0.25
+            print(index, value)
+        elif index < num_elements and index > middle_joint:
+            value = 0.75
+            print(index, value)
+
+
+'''
+
 
 
 def build_curve_from_transforms_list(name=None, transform_list=None, degree=3, construction_history=False,

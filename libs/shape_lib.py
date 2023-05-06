@@ -1,7 +1,7 @@
 # Imports
 import importlib
 import maya.cmds as cmds
-from maya_lib.libs import curve_lib
+from maya_lib.libs import curve_lib, side_lib
 importlib.reload(curve_lib)
 
 
@@ -12,6 +12,75 @@ from maya_lib.libs import shape_lib
 type = 'plus'
 shape_lib.ShapeLib(type=type, name='{}_c_ctr'.format(type), scale=5)
 '''
+
+colors_dict = {'default': 0,
+               'black': 1,
+               'gray': 2,
+               'lightGray': 3,
+               'crimson': 4,
+               'darkBlue': 5,
+               'blue': 6,
+               'left': 6,
+               side_lib.left: 6,
+               'darkGreen': 7,
+               'darkPurple': 8,
+               'pink': 9,
+               'brownLight': 10,
+               'brown': 11,
+               'darkOrange': 12,
+               'red': 13,
+               'right': 13,
+               side_lib.right: 13,
+               'green': 14,
+               'blue2': 15,
+               'white': 16,
+               'yellow': 17,
+               'center': 17,
+               side_lib.center: 17,
+               'lightBlue': 18,
+               'lightGreen': 19,
+               'lightPink': 20,
+               'lightOrange': 21,
+               'lightYellow': 22,
+               'green2': 23,
+               'brown2': 24,
+               'pistachio': 25,
+               'green3': 26,
+               'green4': 27,
+               'turquoise': 28,
+               'blue3': 29,
+               'purple': 30,
+               'darkPink': 31}
+
+
+def set_override_color(splines_list=None, color_key='red'):
+    """
+    override the spline color
+    :param splines_list: list
+    :param color_key: str, check valid color keys
+    """
+    if not splines_list:
+        splines_list = cmds.ls(sl=True)
+
+    color_value = 0
+    if isinstance(color_key, int):
+        if 1 <= color_key <= 31:
+            color_value = color_key
+        else:
+            cmds.error('{} is out of range of 1 - 31'.format(color_key))
+    else:
+        if color_key in colors_dict.keys():
+            color_value = colors_dict[color_key]
+        else:
+            cmds.error('{} is not a valid color, try any of these: {}'.format(color_key, list(colors_dict.keys())))
+
+    override_value = 0 if color_value == 0 else 1
+    for spl in splines_list:
+        spl_shapes = cmds.listRelatives(spl, shapes=True)
+        for spl_shape in spl_shapes:
+            cmds.setAttr('{}.overrideEnabled'.format(spl_shape), override_value)
+            cmds.setAttr('{}.overrideRGBColors'.format(spl_shape), 0)
+            cmds.setAttr('{}.overrideColor'.format(spl_shape), color_value)
 
 
 class ShapeLib:
@@ -73,10 +142,14 @@ class ShapeLib:
             self.create_lollipop()
         if type == 'lollipop2':
             self.create_lollipop2()
-        if type == 'allDirections3D':
-            self.create_allDirections3D()
+        if type == 'fourPrisms':
+            self.create_four_prisms()
         if type == 'cylinder':
             self.create_cylinder()
+        if type == 'pelvis':
+            self.create_pelvis()
+        if type == 'spineFk':
+            self.create_spine_fk()
 
     def get_control_name(self):
         if self.control:
@@ -158,38 +231,38 @@ class ShapeLib:
         cmds.select(self.control)
         return self.control
 
-    def create_general(self):
-        self.control = cmds.curve(name=self.name, degree=1, point=[(-0.6411898986754146, 0.005116290412843227, 0.1585763273843136), (-0.729070580862966, 0.0108537832275033, 0.15857640054627256),
-                                                              (-0.7290705808629662, 0.0108537832275033, 0.26755882082465493), (-0.9965799198158629, 0.0108537832275033, 4.9416056954529955e-05),
-                                                              (-0.7290705808629647, 0.0108537832275033, -0.26745997901773816), (-0.7290705808629647, 0.0108537832275033, -0.1584775709330155),
-                                                              (-0.6411898986754135, 0.005116290412843227, -0.15847764409497467), (-0.6231527443454772, 5.739271580957505e-17, -0.23633066279488177),
-                                                              (-0.5901227535837925, 5.435063668418063e-17, -0.3097203020417215), (-0.548487453177508, 5.0515999417952205e-17, -0.37859353160871184),
-                                                              (-0.4988539410643126, 4.5944728037743257e-17, -0.4419460328941874), (-0.4419460328941859, 4.070347675731331e-17, -0.4988539410643142),
-                                                              (-0.37859353160871007, 3.486867706526226e-17, -0.5484874531775092), (-0.30972030204171946, 2.8525416068119765e-17, -0.5901227535837935),
-                                                              (-0.23633066279487955, 2.176618744762028e-17, -0.6231527443454778), (-0.1585763273843136, 0.005116290412843227, -0.6411898986754146),
-                                                              (-0.1585764005462738, 0.0108537832275033, -0.7290705808629653), (-0.2675588208246562, 0.0108537832275033, -0.7290705808629653),
-                                                              (-4.9416056956189584e-05, 0.0108537832275033, -0.9965799198158625), (0.26745997901773694, 0.0108537832275033, -0.7290705808629653),
-                                                              (0.15847757093301426, 0.0108537832275033, -0.7290705808629653), (0.15847764409497359, 0.005116290412843227, -0.6411898986754143),
-                                                              (0.23633066279488069, 5.739271580957505e-17, -0.6231527443454774), (0.30972030204172035, 5.435063668418063e-17, -0.5901227535837933),
-                                                              (0.37859353160871134, 5.0515999417952205e-17, -0.5484874531775087), (0.44194603289418644, 4.5944728037743257e-17, -0.4988539410643132),
-                                                              (0.4988539410643134, 4.070347675731331e-17, -0.4419460328941863), (0.5484874531775086, 3.486867706526226e-17, -0.37859353160871106),
-                                                              (0.5901227535837927, 2.8525416068119765e-17, -0.3097203020417205), (0.6231527443454775, 2.176618744762028e-17, -0.23633066279488063),
-                                                              (0.6411898986754135, 0.005116290412843227, -0.15857632738431438), (0.7290705808629652, 0.0108537832275033, -0.15857640054627395),
-                                                              (0.7290705808629652, 0.0108537832275033, -0.26755882082465654), (0.9965799198158629, 0.0108537832275033, -4.9416056956632176e-05),
-                                                              (0.7290705808629657, 0.0108537832275033, 0.2674599790177365), (0.7290705808629657, 0.0108537832275033, 0.15847757093301407),
-                                                              (0.6411898986754138, 0.005116290412843227, 0.15847764409497325), (0.6231527443454778, 5.739271580957505e-17, 0.23633066279488052),
-                                                              (0.590122753583793, 5.435063668418063e-17, 0.30972030204172013), (0.548487453177509, 5.0515999417952205e-17, 0.37859353160871084),
-                                                              (0.49885394106431363, 4.5944728037743257e-17, 0.4419460328941861), (0.44194603289418655, 4.070347675731331e-17, 0.4988539410643131),
-                                                              (0.37859353160871134, 3.486867706526226e-17, 0.5484874531775086), (0.3097203020417207, 2.8525416068119765e-17, 0.5901227535837924),
-                                                              (0.2363306627948811, 2.176618744762028e-17, 0.6231527443454774), (0.15857632738431482, 0.005116290412843227, 0.641189898675414),
-                                                              (0.158576400546275, 0.0108537832275033, 0.7290705808629652), (0.2675588208246571, 0.0108537832275033, 0.7290705808629652),
-                                                              (4.941605695763936e-05, 0.0108537832275033, 0.9965799198158625), (-0.2674599790177359, 0.0108537832275033, 0.729070580862966),
-                                                              (-0.15847757093301335, 0.0108537832275033, 0.7290705808629658), (-0.15847764409497267, 0.005116290412843227, 0.6411898986754146),
-                                                              (-0.23633066279487983, 5.739271580957505e-17, 0.6231527443454778), (-0.3097203020417196, 5.435063668418063e-17, 0.5901227535837935),
-                                                              (-0.3785935316087102, 5.0515999417952205e-17, 0.5484874531775092), (-0.441946032894186, 4.5944728037743257e-17, 0.4988539410643141),
-                                                              (-0.4988539410643128, 4.070347675731331e-17, 0.4419460328941874), (-0.548487453177508, 3.486867706526226e-17, 0.37859353160871184),
-                                                              (-0.5901227535837925, 2.8525416068119765e-17, 0.3097203020417212), (-0.6231527443454772, 2.176618744762028e-17, 0.23633066279488177),
-                                                              (-0.6411898986754146, 0.005116290412843227, 0.1585763273843136)])
+    def create_four_arrows(self):
+        self.control = cmds.curve(name=self.name, degree=1, point=[(-0.65, 0, 0.16), (-0.73, 0.01, 0.16),
+                                                                   (-0.73, 0.01, 0.27), (-0.99, 0.01, 4.95),
+                                                                   (-0.73, 0, -0.26), (-0.73, 0, -0.16),
+                                                                   (-0.65, 0, -0.16), (-0.62, 5.74, -0.23),
+                                                                   (-0.59, 5.44, -0.31), (-0.55, 5.05, -0.38),
+                                                                   (-0.50, 4.59, -0.44), (-0.44, 4.07, -0.49),
+                                                                   (-0.38, 3.48, -0.54), (-0.31, 2.85, -0.59),
+                                                                   (-0.24, 2.17, -0.62), (-0.15, 0, -0.64),
+                                                                   (-0.16, 0, -0.72), (-0.26, 0, -0.7),
+                                                                   (-4.94, 0, -0.99), (0.26, 0.01, -0.72),
+                                                                   (0.16, 0, -0.72), (0.15, 0, -0.64),
+                                                                   (0.24, 5.73-17, -0.62), (0.30, 5.43, -0.59),
+                                                                   (0.38, 5.05-17, -0.54), (0.44, 4.59, -0.49),
+                                                                   (0.50, 4.07-17, -0.44), (0.54, 3.48, -0.37),
+                                                                   (0.59, 2.85-17, -0.30), (0.62, 2.17, -0.23),
+                                                                   (0.64, 0, -0.15), (0.72, 0, -0.15),
+                                                                   (0.73, 0, -0.26), (0.99, 0, -4.94),
+                                                                   (0.73, 0, 0.26), (0.72, 0, 0.15),
+                                                                   (0.64, 0, 0.16), (0.62, 5.73, 0.2),
+                                                                   (0.59, 5.44, 0.30), (0.54, 5.05, 0.37),
+                                                                   (0.50, 4.6, 0.44), (0.44, 4.07, 0.49),
+                                                                   (0.38, 3.49, 0.55), (0.30, 2.85-17, 0.59),
+                                                                   (0.24, 2.18-17, 0.62), (0.15, 0, 0.64),
+                                                                   (0.16, 0.01, 0.73), (0.26, 0, 0.72),
+                                                                   (4.94, 0.01, 0.99), (-0.26, 0, 0.72),
+                                                                   (-0.16, 0.01, 0.73), (-0.15, 0, 0.64),
+                                                                   (-0.24, 5.74-17, 0.62), (-0.30, 5.43, 0.59),
+                                                                   (-0.38, 5.05-17, 0.55), (-0.44, 4.59, 0.49),
+                                                                   (-0.50, 4.07, 0.44), (-0.54, 3.48, 0.37),
+                                                                   (-0.59, 2.85-17, 0.3), (-0.62, 2.17, 0.23),
+                                                                   (-0.65, 0, 0.15)])
 
         shape = cmds.listRelatives(self.control, shapes=True)[0]
         cmds.rename(shape, '{}Shape'.format(self.control))
@@ -199,19 +272,52 @@ class ShapeLib:
         return self.control[0]
 
     def create_eye(self):
-        self.control = cmds.circle(name=self.name, normal=(0, 1, 0), radius=0.6)
+        self.control = cmds.circle(name=self.name, normal=(0, 1, 0), radius=0.6)[0]
         shape = cmds.listRelatives(self.control, shapes=True)[0]
-        shape = cmds.rename(shape, '{}Shape'.format(self.control[0]))
+        shape = cmds.rename(shape, '{}Shape'.format(self.control))
         control_1 = cmds.circle(name='{}1'.format(self.name), normal=(0, 1, 0), radius=1)
         shape_1 = cmds.listRelatives(control_1, shapes=True)[0]
         shape_1 = cmds.rename(shape_1, '{}1'.format(shape))
         cmds.scale(1.5, 1, 0, curve_lib.even_cvs(control_1[0])[:-2], relative=True)
-        cmds.parent(shape_1, self.control[0], shape=True, relative=True)
-        cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control[0]))
+        cmds.parent(shape_1, self.control, shape=True, relative=True)
+        cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control))
         cmds.delete(control_1)
         cmds.delete(self.control, constructionHistory=True)
-        cmds.select(self.control[0])
-        return self.control[0]
+        cmds.select(self.control)
+        return self.control
+
+    def create_general(self):
+        self.control = cmds.curve(name=self.name, degree=3, point=[(0.33, -0.00, 1.17), (0.56, -0.00, 1.10),
+                                                                   (1.08, -0.00, 0.75), (1.29, -0.00, -0.15), 
+                                                                   (0.86, -0.00, -0.97), (-0.00, -0.00, -1.29), 
+                                                                   (-0.87, -0.00, -0.96), (-1.29, -0.00, -0.14), 
+                                                                   (-1.07, -0.00, 0.75), (-0.55, -0.00, 1.11), 
+                                                                   (-0.33, -0.00, 1.17)])
+        shape = cmds.listRelatives(self.control, shapes=True)[0]
+        cmds.rename(shape, '{}Shape'.format(self.control))
+        control_1 = cmds.curve(name=self.name, degree=1, point=[(-0.33, 0.00, 1.17), (-0.33, 0.00, 1.36),
+                                                                (-0.57, 0.00, 1.36), (0.00, 0.00, 1.93), 
+                                                                (0.57, 0.00, 1.36), (0.33, 0.00, 1.36), 
+                                                                (0.33, 0.00, 1.17)])
+        shape_1 = cmds.listRelatives(control_1, shapes=True)[0]
+        shape_1 = cmds.rename(shape_1, '{}Shape1'.format(self.control))
+        cmds.parent(shape_1, self.control, shape=True, relative=True)
+        cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control))
+        cmds.delete(control_1)
+        cmds.delete(self.control, constructionHistory=True)
+        cmds.select(self.control)
+        return self.control
+
+    def create_pelvis(self):
+        self.control = cmds.circle(name=self.name, degree=3, normal=(0, 1, 0), sections=8)[0]
+        shape = cmds.listRelatives(self.control, shapes=True)[0]
+        cmds.rename(shape, '{}Shape'.format(self.control))
+        cmds.move(0, -0.6, 0, '{}.cv[1]'.format(self.control), relative=True)
+        cmds.move(0, -0.6, 0, '{}.cv[5]'.format(self.control), relative=True)
+        cmds.scale(1 * self.scale, 1 * self.scale, 1 * self.scale, '{}.cv[*]'.format(self.control))
+        cmds.delete(self.control, constructionHistory=True)
+        cmds.select(self.control)
+        return self.control
 
     def create_box(self):
         self.control = cmds.curve(name=self.name, degree=1, point=[(-1, 1, -1), (-1, -1, -1), (1, -1, -1), (1, 1, -1),
@@ -221,6 +327,24 @@ class ShapeLib:
                                                               (1, -1, 1),
                                                               (1, -1, 1), (1, -1, 1), (1, -1, -1), (-1, -1, -1),
                                                               (-1, -1, 1)])
+        shape = cmds.listRelatives(self.control, shapes=True)[0]
+        cmds.rename(shape, '{}Shape'.format(shape))
+        cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control))
+        cmds.delete(self.control, constructionHistory=True)
+        cmds.select(self.control)
+        return self.control[0]
+
+    def create_spine_fk(self):
+        self.control = cmds.curve(name=self.name, degree=1, point=[(-1, 0.11, -0.99), (-1, -0.11, -0.99),
+                                                                   (1, -0.11, -0.99), (1, 0.11, -0.99),
+                                                                   (-1, 0.11, -0.99), (-1, 0.11, 0.99),
+                                                                   (1, 0.11, 0.99), (1, 0.11, -0.99),
+                                                                   (1, -0.11, -0.99), (1, -0.11, 0.99),
+                                                                   (1, 0.11, 0.99), (-1, 0.11, 0.99),
+                                                                   (-1, -0.11, 0.99), (1, -0.11, 0.99),
+                                                                   (1, -0.11, 0.99), (1, -0.11, 0.99),
+                                                                   (1, -0.11, -0.99), (-1, -0.11, -0.99),
+                                                                   (-1, -0.11, 0.99)])
         shape = cmds.listRelatives(self.control, shapes=True)[0]
         cmds.rename(shape, '{}Shape'.format(shape))
         cmds.scale(self.scale, self.scale, self.scale, '{}.cv[*]'.format(self.control))
@@ -325,20 +449,13 @@ class ShapeLib:
         cmds.select(self.control[0])
         return self.control[0]
 
-    def create_allDirections3D(self):
-        self.control = cmds.curve(name=self.name, degree=1, point=[(0.7499114722428128, 0.07499114722428132, -0.24997049074760422),
-                                                              (0.7499114722428128, -0.07499114722428132, -0.24997049074760422),
-                                                              (0.9998819629904169, 0.0, -0.24997049074760422),
-                                                              (0.7499114722428128, 0.07499114722428132, -0.24997049074760422),
-                                                              (0.7499114722428128, 0.07499114722428132, 0.24997049074760422),
-                                                              (0.9998819629904169, 0.0, 0.24997049074760422),
-                                                              (0.9998819629904169, 0.0, -0.24997049074760422),
-                                                              (0.7499114722428128, -0.07499114722428132, -0.24997049074760422),
-                                                              (0.7499114722428128, -0.07499114722428132, 0.24997049074760422),
-                                                              (0.9998819629904169, 0.0, 0.24997049074760422),
-                                                              (0.7499114722428128, 0.07499114722428132, 0.24997049074760422),
-                                                              (0.7499114722428128, -0.07499114722428132, 0.24997049074760422)])
-
+    def create_four_prisms(self):
+        self.control = cmds.curve(name=self.name, degree=1, point=[(0.25, 0.072, 0.75), (0.25, -0.07, 0.75),
+                                                                   (0.25, 0.0, 1), (0.25, 0.07, 0.75),
+                                                                   (-0.25, 0.07, 0.75), (-0.25, 0.0, 1),
+                                                                   (0.25, 0.0, 1), (0.25, -0.07, 0.75),
+                                                                   (-0.25, -0.07, 0.75), (-0.25, 0.0, 1),
+                                                                   (-0.25, 0.07, 0.75), (-0.25, -0.07, 0.75)])
         shape = cmds.listRelatives(self.control, shapes=True)[0]
         shape = cmds.rename(shape, '{}Shape'.format(self.control))
         control_1 = cmds.duplicate(self.control)[0]
