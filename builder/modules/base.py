@@ -22,6 +22,7 @@ def rig_base(asset_type):
     center_control, center_zero = control_lib.build_control(module_lib.center, side_lib.center, 'circle', 2.5, 'green')
     cmds.parent(center_zero, general_control)
     cmds.parent(general_zero, controls_grp)
+    """
     # Create visibility control
     visibility_control, visibility_zero = control_lib.build_control(module_lib.visibility, side_lib.center, 'eye', 0.5,
                                                                     'white')
@@ -34,6 +35,7 @@ def rig_base(asset_type):
             attributes_cb.append(attribute)
     print(attributes_cb)
     attribute_lib.lock_and_hide_attributes(attributes_cb , lock=True, hide=True)
+    """
     # Add attributes
     # Set attrs
     if asset_type == 'char':

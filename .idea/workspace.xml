@@ -157,7 +157,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682538700690</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="shape_lib =  controls, general, pelvis, spine fk.&#10;Control_lib = control_key color working in build_control.&#10;Base = Lock and hide attrs, visibility control&#10;Spine = bend curve system&#10;Curve_lib = auto squash system (not working 100%)&#10;Usage_lib and module_lib new.">
+      <created>1683401340882</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1683401340882</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -178,7 +185,8 @@
     <MESSAGE value="Create connection_lib&#10;Modify spine.py adding spine controls fk" />
     <MESSAGE value="Added attribute_lib.&#10;Creating control with any shape.&#10;Added type of asset into base.py for future tools." />
     <MESSAGE value="Added global_scale_attribute.&#10;Add global scale in general.&#10;Add global scale to spine stretch.&#10;Add squash to spine (without connected)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added global_scale_attribute.&#10;Add global scale in general.&#10;Add global scale to spine stretch.&#10;Add squash to spine (without connected)" />
+    <MESSAGE value="shape_lib =  controls, general, pelvis, spine fk.&#10;Control_lib = control_key color working in build_control.&#10;Base = Lock and hide attrs, visibility control&#10;Spine = bend curve system&#10;Curve_lib = auto squash system (not working 100%)&#10;Usage_lib and module_lib new." />
+    <option name="LAST_COMMIT_MESSAGE" value="shape_lib =  controls, general, pelvis, spine fk.&#10;Control_lib = control_key color working in build_control.&#10;Base = Lock and hide attrs, visibility control&#10;Spine = bend curve system&#10;Curve_lib = auto squash system (not working 100%)&#10;Usage_lib and module_lib new." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

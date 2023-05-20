@@ -185,7 +185,6 @@ for index in range(num_elements):
 '''
 
 
-
 def build_curve_from_transforms_list(name=None, transform_list=None, degree=3, construction_history=False,
                                      parent_curve_on_root=False):
     for transform in transform_list:
