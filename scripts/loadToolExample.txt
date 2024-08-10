@@ -1,0 +1,13 @@
+# Load renamer tool
+
+import sys
+import os
+import importlib
+
+path = 'D:\\repositories\\morphTools\\'
+if os.path.exists(path) and path not in sys.path:
+    sys.path.append(path)
+
+
+from scripts.rig.rigTools import renamer_tool 
+importlib.reload(renamer_tool)

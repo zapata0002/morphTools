@@ -1,0 +1,59 @@
+//       Written by Wim Coene       //
+// coene.wim@anima-lunae.com //
+
+global proc mdl_railRelax(){
+	string $allEdges[] = `ls -fl -sl`;
+	string $edge;
+	for ($edge in $allEdges){
+		string $neighFaces[]= `polyListComponentConversion -tf $edge`; $neighFaces = `ls -fl $neighFaces`;
+		string $faceEdges[] = `polyListComponentConversion -te $neighFaces`; $faceEdges = `ls -fl $faceEdges`;
+		string $edgeVerts[] = `polyListComponentConversion -tv $edge`; $edgeVerts = `ls -fl $edgeVerts`;
+		string $vertEdges[] = `polyListComponentConversion -te $edgeVerts`; $vertEdges = `ls -fl $vertEdges`;
+		string $railEdges[] = stringArrayRemove ($vertEdges, $faceEdges);
+		$railEdges = stringArrayRemove ($railEdges, $faceEdges);
+		$railEdges = stringArrayRemove ({$edge}, $railEdges);	
+		string $oneVert;
+		for ($oneVert in $edgeVerts){
+			string $vertRails[] = `polyListComponentConversion -te $oneVert`; $vertRails = `ls -fl $vertRails`;		
+			string $temp[] = stringArrayRemove ($railEdges,$vertRails);		
+			$vertRails = stringArrayRemove ($temp, $vertRails);
+			if (size($vertRails) == 2){
+				string $temp[] = `polyListComponentConversion -tv $vertRails[0]`; $temp = `ls -fl $temp`;
+				$temp = stringArrayRemove ($edgeVerts,$temp);
+				string $vertA = $temp[0];
+				$temp = `polyListComponentConversion -tv $vertRails[1]`; $temp = `ls -fl $temp`;
+				$temp = stringArrayRemove ($edgeVerts,$temp);
+				string $vertB = $temp[0]; 
+				if ( edgeLength($vertRails[0]) > edgeLength($vertRails[1])){
+					string $buffer = $vertB;
+					$vertB = $vertA;
+					$vertA = $buffer;
+				}				
+				string $vertC = $oneVert;
+				vector $corA = `xform -q -t -ws $vertA`; 
+				vector $corB = `xform -q -t -ws $vertB`; 
+				vector $corC = `xform -q -t -ws $vertC`;
+				vector $AB = $corB - $corA; 
+				vector $BC = $corC - $corB;
+				vector $AC = $corC - $corA;	
+				float $cos = dot(($AB*-1),$BC)/(mag($AB)*mag($BC));
+				if ($cos >= 1) $cos =1;
+				//print ("  Cos: " + $cos + "\n");
+				float $alpha = acos($cos);
+				//print ("Alpha: " + $alpha + "\n");
+				vector $N = $AB/2 + $corA + unit(cross((unit(cross($AB,$BC))),$AB))*(mag($AB)/2)*tan($alpha);
+				xform -ws -t ($N.x) ($N.y) ($N.z) $vertC;		
+			}
+		}
+	}
+}
+
+
+global proc float edgeLength (string $edge){
+	string $edgeVerts[] = `polyListComponentConversion -tv $edge`; $edgeVerts = `ls -fl $edgeVerts`;
+	vector $pointA = `xform -q -t -ws $edgeVerts[0]`; 
+	vector $pointB = `xform -q -t -ws $edgeVerts[1]`;
+	float $length = mag ($pointB - $pointA);
+	return $length;
+}
+mdl_railRelax;

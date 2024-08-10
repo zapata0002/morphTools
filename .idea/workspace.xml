@@ -4,28 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6168222a-7394-4281-bcbf-931afa7e3c41" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/modules/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/modules/base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/modules/spine.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/icons/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/attribute_lib.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/connection_lib.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/control_lib.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/curve_lib.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/deformer_lib.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/math_lib.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/module_lib.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/shape_lib.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/side_lib.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/usage_lib.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/bSkinSaver.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/renamer_tool_zapata.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/stretch_system.py" beforeDir="false" />
+    <list default="true" id="6168222a-7394-4281-bcbf-931afa7e3c41" name="Changes" comment="- Re-organize repositories.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/bSkinSaver.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool_zapata.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/stretch_system.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,21 +56,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/repositories/morphTools",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/repositories/morphTools&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   },
-  "keyToStringList": {
-    "GitStage.ChangesTree.GroupingKeys": [
-      "directory",
-      "module",
-      "repository"
+  &quot;keyToStringList&quot;: {
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;,
+      &quot;repository&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\luisi\Documents\maya\2023\scripts\maya_lib\libs" />
@@ -174,7 +157,28 @@
       <option name="project" value="LOCAL" />
       <updated>1683401340882</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="- Re-organize repositories.">
+      <created>1723315770916</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1723315770916</updated>
+    </task>
+    <task id="LOCAL-00012" summary="- Re-organize repositories.">
+      <created>1723315810304</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1723315810304</updated>
+    </task>
+    <task id="LOCAL-00013" summary="- Re-organize repositories.">
+      <created>1723315921142</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1723315921142</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -196,7 +200,8 @@
     <MESSAGE value="Added attribute_lib.&#10;Creating control with any shape.&#10;Added type of asset into base.py for future tools." />
     <MESSAGE value="Added global_scale_attribute.&#10;Add global scale in general.&#10;Add global scale to spine stretch.&#10;Add squash to spine (without connected)" />
     <MESSAGE value="shape_lib =  controls, general, pelvis, spine fk.&#10;Control_lib = control_key color working in build_control.&#10;Base = Lock and hide attrs, visibility control&#10;Spine = bend curve system&#10;Curve_lib = auto squash system (not working 100%)&#10;Usage_lib and module_lib new." />
-    <option name="LAST_COMMIT_MESSAGE" value="shape_lib =  controls, general, pelvis, spine fk.&#10;Control_lib = control_key color working in build_control.&#10;Base = Lock and hide attrs, visibility control&#10;Spine = bend curve system&#10;Curve_lib = auto squash system (not working 100%)&#10;Usage_lib and module_lib new." />
+    <MESSAGE value="- Re-organize repositories." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Re-organize repositories." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
