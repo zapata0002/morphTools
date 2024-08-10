@@ -5,17 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6168222a-7394-4281-bcbf-931afa7e3c41" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_04_2023_16_19.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_04_2023_16_19/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/modules/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder/modules/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/modules/spine.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder/modules/spine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/control_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/control_lib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/curve_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/curve_lib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/module_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/module_lib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/shape_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/shape_lib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/usage_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/usage_lib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/builder/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/builder/modules/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/builder/modules/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/builder/modules/spine.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/icons/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/attribute_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/connection_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/control_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/curve_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/deformer_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/math_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/module_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/shape_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/side_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/usage_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/bSkinSaver.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/renamer_tool_zapata.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/stretch_system.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,21 +73,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/luisi/Documents/maya/2023/scripts/maya_lib&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "D:/repositories/morphTools",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;module&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\luisi\Documents\maya\2023\scripts\maya_lib\libs" />
