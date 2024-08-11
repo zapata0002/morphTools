@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6168222a-7394-4281-bcbf-931afa7e3c41" name="Changes" comment="- Re-organize repositories.">
+    <list default="true" id="6168222a-7394-4281-bcbf-931afa7e3c41" name="Changes" comment="- Add scripts.&#10;- Renamer tool now supports rename and order with letters.">
+      <change afterPath="$PROJECT_DIR$/scripts/rig/rigLib/control.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/bSkinSaver.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool_zapata.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/stretch_system.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/connection_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigLib/connection_lib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/gui/renamer_tool.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +18,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -56,23 +56,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/repositories/morphTools&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "D:/repositories/morphTools/scripts/rig/rigTools",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;module&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\repositories\morphTools\scripts\rig\rigTools" />
       <recent name="C:\Users\luisi\Documents\maya\2023\scripts\maya_lib\libs" />
       <recent name="C:\Users\luisi\Documents\maya\2023\scripts\maya_lib\builder\modules" />
       <recent name="C:\Users\luisi\Documents\maya\2022\scripts\maya_lib\tools" />
@@ -178,7 +179,14 @@
       <option name="project" value="LOCAL" />
       <updated>1723315921142</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="- Add scripts.&#10;- Renamer tool now supports rename and order with letters.">
+      <created>1723388294118</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1723388294118</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -201,7 +209,9 @@
     <MESSAGE value="Added global_scale_attribute.&#10;Add global scale in general.&#10;Add global scale to spine stretch.&#10;Add squash to spine (without connected)" />
     <MESSAGE value="shape_lib =  controls, general, pelvis, spine fk.&#10;Control_lib = control_key color working in build_control.&#10;Base = Lock and hide attrs, visibility control&#10;Spine = bend curve system&#10;Curve_lib = auto squash system (not working 100%)&#10;Usage_lib and module_lib new." />
     <MESSAGE value="- Re-organize repositories." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Re-organize repositories." />
+    <MESSAGE value="- Add scripts.&#10;- Add rename and order by letters." />
+    <MESSAGE value="- Add scripts.&#10;- Renamer tool now supports rename and order with letters." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Add scripts.&#10;- Renamer tool now supports rename and order with letters." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

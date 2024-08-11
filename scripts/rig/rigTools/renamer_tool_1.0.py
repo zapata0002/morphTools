@@ -20,7 +20,7 @@ class RenamerWindow(QtWidgets.QWidget):
         super(RenamerWindow, self).__init__(parent=parent)
         self.setWindowFlags(QtCore.Qt.Window)
         self.widgetPath = 'D:\\repositories\\morphTools\\scripts\\rig\\rigTools\\gui\\'
-        self.widget = QtUiTools.QUiLoader().load(self.widgetPath + 'renamer_tool.ui')
+        self.widget = QtUiTools.QUiLoader().load(self.widgetPath + 'renamer_tool_1.0.ui')
         self.widget.setParent(self)
         original_width = self.widget.width()
         original_height = self.widget.height()
