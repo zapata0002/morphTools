@@ -73,15 +73,22 @@ class RenamerWindow(QtWidgets.QWidget):
         cmds.undoInfo(openChunk=True)
         search_text = self.in_search.text()
         replace_text = self.in_replace.text()
+        # print(search_text, replace_text)
         selected_list = cmds.ls(sl=True)
         if len(selected_list) == 0:
             cmds.warning("Select the node to replace")
-        elif self.search_text == "":
+        elif search_text == "":
             cmds.warning("Search entry field is empty")
         else:
             for sel in reversed(selected_list):
-                split_name = sel.split('|')
-                search_name_node = split_name[-1].replace(search_text, replace_text)
+                # print(sel)
+                if "|" in sel:
+                    split_name = sel.split('|')[-1]
+                    search_name_node = split_name.replace(search_text, replace_text)
+                    # print(search_name_node)
+                else:
+                    search_name_node = sel.replace(search_text, replace_text)
+                    # print(search_name_node)
                 cmds.rename(sel, search_name_node)
         cmds.undoInfo(closeChunk=True)
 
