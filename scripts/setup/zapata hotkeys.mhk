@@ -1,0 +1,351 @@
+//Maya Preference 2024 (Release 1)
+//
+//
+
+//
+// The runtime commands referenced by the hotkeys
+//
+runTimeCommand
+	-label ""
+	-annotation "Mirror Selection"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as cmds\ndef mirror_selection(axis):\n    for each in cmds.ls(sl=True):\n        grp = cmds.createNode('transform', name='grp_mirror')\n        cmds.parent(each, grp)\n        if axis in 'Xx':\n            print('X axis')\n            cmds.scale(-1,1,1, grp)\n        if axis in 'Yy':\n            print('Y axis')\n            cmds.scale(1,-1,1, grp)\n        if axis in 'Zz':\n            print('Z axis')\n            cmds.scale(1,1,-1, grp)\n        cmds.parent(each, world=True)\n        cmds.delete(grp)\n            \nmirror_selection(axis='X')\n        ")
+	mirrorSelection;
+
+runTimeCommand
+	-label ""
+	-annotation "Match scale transform"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as cmds\n\ncmds.matchTransform(position=False, rotation=False, scale=True)")
+	matchS;
+
+runTimeCommand
+	-label ""
+	-annotation "Parent listed objects in a chain"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as cmds\n\nselected_transform_list = cmds.ls(sl=1)    \nfor i in range(len(selected_transform_list[::-1][:-1])):\n    child = selected_transform_list[i]\n    parent = selected_transform_list[i+1]\n    cmds.parent(selected_transform_list[i],selected_transform_list[i+1])\ncmds.select(selected_transform_list)")
+	parentChain;
+
+runTimeCommand
+	-label ""
+	-annotation "Reset all transform"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as mc\n\n\ndef reset_controls(control_list=[], translate=True, rotate=True, scale=True, extras=True):\n    \"\"\"\n    Reset controls to default\n    param: control_list list of strings\n    param: translate bool\n    param: rotate bool\n    param: scale bool\n    param: extras bool\n    \"\"\"\n    for ctrl in control_list:\n        print(ctrl)\n        # Check attributes on the channelBox\n        attrList = mc.listAttr(ctrl, unlocked=False, keyable=True, visible=True)\n        for attr in attrList:\n            if translate and attr.startswith(\"translate\"):\n                # Check if the attribute has input connection\n                cnn_list = mc.listConnections(\"{}.{}\".format(ctrl, attr), source=True, destination=False)\n\n                if cnn_list:\n                    mc.warning(\"Cannot reset to default {}.{}, it has an input connection\".format(ctrl, attr))\n                else:\n                    # Get attribute default value\n                    value = mc.attributeQuery(attr, node=ctrl, listDefault=True)[0]\n                    # Set attribute to default \n                    mc.setAttr('{}.{}'.format(ctrl, attr), value)\n                    print(attr, value)\n            elif rotate and attr.startswith(\"rotate\"):\n                cnn_list = mc.listConnections(\"{}.{}\".format(ctrl, attr), source=True, destination=False)\n                if cnn_list:\n                    mc.warning(\"Cannot reset to default {}.{}, it has an input connection\".format(ctrl, attr))\n                else:\n                    value = mc.attributeQuery(attr, node=ctrl, listDefault=True)[0]\n                    mc.setAttr('{}.{}'.format(ctrl, attr), value)\n                    print(attr, value)\n            elif scale and attr.startswith(\"scale\"):\n                cnn_list = mc.listConnections(\"{}.{}\".format(ctrl, attr), source=True, destination=False)\n                if cnn_list:\n                    mc.warning(\"Cannot reset to default {}.{}, it has an input connection\".format(ctrl, attr))\n                else:\n                    value = mc.attributeQuery(attr, node=ctrl, listDefault=True)[0]\n                    mc.setAttr('{}.{}'.format(ctrl, attr), value)\n                    print(attr, value)\n            elif extras and not (attr.startswith(\"translate\") or attr.startswith(\"rotate\") or attr.startswith(\"scale\")):\n                cnn_list = mc.listConnections(\"{}.{}\".format(ctrl, attr), source=True, destination=False)\n                if cnn_list:\n                    mc.warning(\"Cannot reset to default {}.{}, it has an input connection\".format(ctrl, attr))\n                else:\n                    value = mc.attributeQuery(attr, node=ctrl, listDefault=True)[0]\n                    mc.setAttr('{}.{}'.format(ctrl, attr), value)\n                    print(attr, value)\n            else:\n                pass\ncontrol_list = []\n# Select all the controls in the scene\nfor usage in [\"ccc\", \"ctrl\", \"ctr\"]:\n    control_list_temp = mc.ls(\"*_{}\".format(usage))\n    control_list.extend(control_list_temp)\n\nreset_controls(control_list=control_list, translate=True, rotate=True, scale=True, extras=False)\n")
+	resetAll;
+
+runTimeCommand
+	-label ""
+	-annotation "Toggle wireframe geometry"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as cmds\n\ndef toggle_wireframe_display(*obj_list):\n    try:\n        for obj in obj_list:\n            if isinstance(obj, list):\n                for each in obj:\n                    if cmds.objExists(each):\n                        val = cmds.getAttr(each + '.overrideEnabled')\n                        cmds.setAttr(each + '.overrideEnabled', int(not val))\n                        val = cmds.getAttr(each + '.overrideShading')\n                        cmds.setAttr(each + '.overrideShading', int(not val))\n                    else:\n                        print('{} not exists'.format(each))\n                continu\n            else:\n                if cmds.objExists(obj):\n                    val = cmds.getAttr(obj + '.overrideEnabled')\n                    cmds.setAttr(obj + '.overrideEnabled', int(not val))\n                    val = cmds.getAttr(obj + '.overrideShading')\n                    cmds.setAttr(obj + '.overrideShading', int(not val))\n                else:\n                    print('{} not exists'.format(obj))\n        return True\n    except:\n        return False\n\ntoggle_wireframe_display(cmds.ls(sl=True))")
+	toggleWireframe;
+
+runTimeCommand
+	-label ""
+	-annotation "Place joint in middle selection"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as cmds\n\ntransform_selected_list = cmds.ls(sl=True)\nfor transform in transform_selected_list:\n    if not 'transform' in cmds.nodeType(transform, i=True):\n        continue\n    if len(transform.split('_')) == 3:\n        descriptor, side, usage = transform.split('_')\n        name = transform.replace(usage, 'jnt')\n        jnt = cmds.createNode('joint', n=name)\n\n    else:\n        name = '{}_jnt'.format(transform)\n        jnt = cmds.createNode('joint', n=name)\n    cmds.matchTransform(jnt, transform)\n    cmds.parentConstraint(transform, jnt, mo=True)\n    cmds.scaleConstraint(transform, jnt, mo=True)")
+	placeJoint;
+
+runTimeCommand
+	-label ""
+	-annotation "Place a locator in de middle selection"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as cmds\ndef middle_point(bbox):\n    position_x = (bbox[0] + bbox[3]) / 2.0\n    position_y = (bbox[1] + bbox[4]) / 2.0\n    position_z = (bbox[2] + bbox[5]) / 2.0\n    position = [position_x, position_y, position_z]\n    return position\n\ntransform_selected_list = cmds.ls(sl=True)\nif transform_selected_list:\n    index = 1\n    while cmds.objExists('test{:02d}_c_loc'.format(index)):\n        index += 1\n    loc_node = cmds.spaceLocator(name='test{:02d}_c_loc'.format(index))\n    if len(transform_selected_list) == 1 and 'transform' in cmds.nodeType(transform_selected_list[0], i=True):\n        cmds.matchTransform(loc_node, transform_selected_list[0])\n    else:\n        index = 1\n        while cmds.objExists('test{:02d}_c_loc'.format(index)):\n            index += 1\n        position = middle_point(cmds.exactWorldBoundingBox(transform_selected_list))\n        cmds.xform(loc_node, translation=position, worldSpace=True)\nelse:\n    index = 1\n    while cmds.objExists('test{:02d}_c_loc'.format(index)):\n        index += 1\n    loc_node = cmds.spaceLocator(name='test{:02d}_c_loc'.format(index))\n\n")
+	placeLocator;
+
+runTimeCommand
+	-label ""
+	-annotation "Match translate transform"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as cmds\n\ncmds.matchTransform(position=True, rotation=False, scale=False)")
+	matchT;
+
+runTimeCommand
+	-label ""
+	-annotation "Create a group and parent"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as cmds\nselected_transform_list = cmds.ls(sl=True)\nprevious_transform = []\nprevious_transform_zero = []\nfor transform in selected_transform_list:\n\tif not 'transform' in cmds.nodeType(transform, i=True):\n\t\tcontinue\n\tif len(selected_transform_list[0].split('_')) >= 3:\n\t\tzero_name = '{}{}_{}_zero'.format(transform.split('_')[0],\n\t\t\t\t\t\t\t  \t\t\t  transform.split('_')[2].capitalize(),\n\t\t\t\t\t\t\t\t\t\t  transform.split('_')[1])\n\t\tzero_node = cmds.createNode('transform', n=zero_name)\n\telse:\n\t\tzero_name = '{}_grp'.format(transform)\n\t\tzero_node = cmds.createNode('transform', n=zero_name)\n\ttransform_matrix = cmds.xform(transform, query=True, matrix=True, worldSpace=True)\n\tcmds.xform(zero_node,  matrix=transform_matrix, worldSpace=True)\n\tif cmds.listRelatives(transform, parent=True):\n\t\tif previous_transform:\n\t\t\tcmds.parent(zero_node, previous_transform)\n\tcmds.parent(transform, zero_node)\n\tprevious_transform = transform\n\tprevious_transform_zero = zero_node")
+	parentGroup;
+
+runTimeCommand
+	-label ""
+	-annotation "Match rotate transform"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as cmds\n\ncmds.matchTransform(position=False, rotation=True, scale=False)")
+	matchR;
+
+runTimeCommand
+	-label ""
+	-annotation "match all transforms"
+	-longAnnotation ""
+	-category "Custom Scripts"
+	-image ""
+	-tags ""
+	-keywords ""
+	-plugin ""
+	-helpUrl ""
+	-hotkeyCtx ""
+	-commandLanguage "python"
+	-command ("import maya.cmds as cmds\n\ncmds.matchTransform(position=True, rotation=True, scale=True)")
+	matchAll;
+
+//
+// The name commands referenced by the hotkeys
+//
+nameCommand
+	-annotation "matchAllNameCommand"
+	-sourceType "mel"
+	-command ("matchAll")
+	matchAllNameCommand;
+
+nameCommand
+	-annotation "matchTNameCommand"
+	-sourceType "mel"
+	-command ("matchT")
+	matchTNameCommand;
+
+nameCommand
+	-annotation "matchRNameCommand"
+	-sourceType "mel"
+	-command ("matchR")
+	matchRNameCommand;
+
+nameCommand
+	-annotation "matchSNameCommand"
+	-sourceType "mel"
+	-command ("matchS")
+	matchSNameCommand;
+
+nameCommand
+	-annotation "resetAllNameCommand"
+	-sourceType "mel"
+	-command ("resetAll")
+	resetAllNameCommand;
+
+nameCommand
+	-annotation "parentGroupNameCommand"
+	-sourceType "mel"
+	-command ("parentGroup")
+	parentGroupNameCommand;
+
+nameCommand
+	-annotation "parentChainNameCommand"
+	-sourceType "mel"
+	-command ("parentChain")
+	parentChainNameCommand;
+
+nameCommand
+	-annotation "placeJointNameCommand"
+	-sourceType "mel"
+	-command ("placeJoint")
+	placeJointNameCommand;
+
+nameCommand
+	-annotation "placeLocatorNameCommand"
+	-sourceType "mel"
+	-command ("placeLocator")
+	placeLocatorNameCommand;
+
+nameCommand
+	-annotation "toggleWireframeNameCommand"
+	-sourceType "mel"
+	-command ("toggleWireframe")
+	toggleWireframeNameCommand;
+
+nameCommand
+	-annotation "NodeEditorWindowNameCommand"
+	-sourceType "mel"
+	-command ("NodeEditorWindow")
+	NodeEditorWindowNameCommand;
+
+nameCommand
+	-annotation "NamespaceEditorNameCommand"
+	-sourceType "mel"
+	-command ("NamespaceEditor")
+	NamespaceEditorNameCommand;
+
+nameCommand
+	-annotation "DeformerSetEditorNameCommand"
+	-sourceType "mel"
+	-command ("DeformerSetEditor")
+	DeformerSetEditorNameCommand;
+
+nameCommand
+	-annotation "HypershadeWindowNameCommand"
+	-sourceType "mel"
+	-command ("HypershadeWindow")
+	HypershadeWindowNameCommand;
+
+nameCommand
+	-annotation "ComponentEditorNameCommand"
+	-sourceType "mel"
+	-command ("ComponentEditor")
+	ComponentEditorNameCommand;
+
+nameCommand
+	-annotation "ConnectionEditorNameCommand"
+	-sourceType "mel"
+	-command ("ConnectionEditor")
+	ConnectionEditorNameCommand;
+
+nameCommand
+	-annotation "ToggleLocalRotationAxesNameCommand"
+	-sourceType "mel"
+	-command ("ToggleLocalRotationAxes")
+	ToggleLocalRotationAxesNameCommand;
+
+nameCommand
+	-annotation "PasteVertexWeightsNameCommand"
+	-sourceType "mel"
+	-command ("PasteVertexWeights")
+	PasteVertexWeightsNameCommand;
+
+nameCommand
+	-annotation "CopyVertexWeightsNameCommand"
+	-sourceType "mel"
+	-command ("CopyVertexWeights")
+	CopyVertexWeightsNameCommand;
+
+nameCommand
+	-annotation "mirrorSelectionNameCommand"
+	-sourceType "mel"
+	-command ("mirrorSelection")
+	mirrorSelectionNameCommand;
+
+//
+// The user hotkeys
+//
+//
+// The hotkey set
+//
+hotkeySet -source "Maya_Default" -current zapata_hotkeys;
+//
+// The hotkey contexts and hotkeys
+//
+hotkey -keyShortcut "9" -name ("");
+hotkey -keyShortcut "n" -alt -name ("NodeEditorWindowNameCommand");
+hotkey -keyShortcut "r" -ctl -sht -name ("matchSNameCommand");
+hotkey -keyShortcut "-" -ctl -name ("toggleWireframeNameCommand");
+hotkey -keyShortcut "h" -ctl -alt -name ("HypershadeWindowNameCommand");
+hotkey -keyShortcut "m" -ctl -sht -name ("mirrorSelectionNameCommand");
+hotkey -keyShortcut "x" -alt -name ("ToggleLocalRotationAxesNameCommand");
+hotkey -keyShortcut "x" -ctl -alt -name ("ComponentEditorNameCommand");
+hotkey -keyShortcut "a" -releaseName ("");
+hotkey -keyShortcut "a" -name ("");
+hotkey -keyShortcut "g" -ctl -sht -name ("parentGroupNameCommand");
+hotkey -keyShortcut "c" -alt -name ("CopyVertexWeightsNameCommand");
+hotkey -keyShortcut "e" -ctl -sht -name ("matchRNameCommand");
+hotkey -keyShortcut "v" -ctl -name ("");
+hotkey -keyShortcut "t" -ctl -sht -name ("matchAllNameCommand");
+hotkey -keyShortcut "c" -ctl -alt -name ("ConnectionEditorNameCommand");
+hotkey -keyShortcut "l" -ctl -sht -name ("placeLocatorNameCommand");
+hotkey -keyShortcut "p" -ctl -sht -name ("parentChainNameCommand");
+hotkey -keyShortcut "c" -ctl -name ("");
+hotkey -keyShortcut "d" -ctl -alt -name ("DeformerSetEditorNameCommand");
+hotkey -keyShortcut "v" -alt -name ("PasteVertexWeightsNameCommand");
+hotkey -keyShortcut "j" -ctl -sht -name ("placeJointNameCommand");
+hotkey -keyShortcut "n" -sht -name ("");
+hotkey -keyShortcut "z" -ctl -sht -name ("resetAllNameCommand");
+hotkey -keyShortcut "w" -ctl -sht -name ("matchTNameCommand");
+hotkey -keyShortcut "p" -alt -name ("");
+hotkey -keyShortcut "8" -name ("");
+hotkey -keyShortcut "n" -ctl -alt -name ("NamespaceEditorNameCommand");
+hotkeyCtx -type "Editor" -addClient "profilerPanel";
+hotkeyCtx -type "Editor" -addClient "hyperGraphPanel";
+hotkeyCtx -type "Editor" -addClient "shapePanel";
+hotkeyCtx -type "Editor" -addClient "posePanel";
+hotkeyCtx -type "Editor" -addClient "outlinerPanel";
+hotkeyCtx -type "Editor" -addClient "polyTexturePlacementPanel";
+hotkeyCtx -type "Editor" -addClient "nodeEditorPanel";
+hotkeyCtx -type "Editor" -addClient "graphEditor";
+hotkeyCtx -type "Editor" -addClient "hyperShadePanel";
+hotkeyCtx -type "Editor" -addClient "timeEditorPanel";
+hotkeyCtx -type "Tool" -addClient "texSculptCacheContext";
+hotkeyCtx -type "Tool" -addClient "sculptMeshCache";
+hotkeyCtx -type "Tool" -addClient "texCutContext";
+hotkeyCtx -type "Tool" -addClient "polyCutUV";
+hotkeyCtx -type "Tool" -addClient "xgmIGBrush";
+hotkeyCtx -type "Tool" -addClient "bpDraw";
+hotkeyCtx -type "Tool" -addClient "SymmetrizeUVBrush";
+hotkeyCtx -type "Tool" -addClient "Unfold3DBrush";

@@ -1,0 +1,19 @@
+{
+  "docAction": "UI documentation", 
+  "displayTitle": "Display", 
+  "normalText": "Default", 
+  "templateText": "Template", 
+  "referenceText": "Reference", 
+  "assignColor": "Assign Color", 
+  "saveGB": "Save", 
+  "textGB": "Text", 
+  "useControlCheck": "Use curve name", 
+  "centerCheck": "re-center the curve", 
+  "controlName": "Give name to control...", 
+  "saveBtn": "Save Controller", 
+  "textBtn": "Create Text", 
+  "loadGB": "Load", 
+  "combineBtn": "combine curves", 
+  "deleteBtn": "delete",
+  "textInput": "Create text Controller..."
+}

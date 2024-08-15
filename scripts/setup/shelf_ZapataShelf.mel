@@ -1,0 +1,416 @@
+global proc shelf_ZapataShelf () {
+    global string $gBuffStr;
+    global string $gBuffStr0;
+    global string $gBuffStr1;
+
+
+    shelfButton
+        -enableCommandRepeat 0
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "opens ngSkinTools2 UI" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "ngSkinTools" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "ngSkinTools2ShelfIcon.png" 
+        -image1 "ngSkinTools2ShelfIcon.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "import ngSkinTools2; ngSkinTools2.open_ui()" 
+        -sourceType "python" 
+        -commandRepeatable 0
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Check the geometry symetric, mirror, flip, etc." 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "abSymMesh" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -imageOverlayLabel "abSym" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "mel.eval('source \"tools/abSymMesh.mel\"')" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Geometry" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Geometry" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -imageOverlayLabel "Geo" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "\"\"\"\n\nfrom tools import zapata_shelf_tools\n\n-----------------------------------\n\nThis tool is the geo cleaner.\n\n\t- Show and unlock the default attributes.\n\t- Rename and delete unused shapes.\n\t- Parent to the world.\n\t- Apply normal[0] display type.\n\t- Apply default scene shader.\n\n\"\"\"" 
+        -sourceType "python" 
+        -doubleClickCommand "\"\"\"\n\nfrom tools import zapata_shelf_tools\n\n-----------------------------------\n\nThis tool is the geo cleaner.\n\n\t- Show and unlock the default attributes.\n\t- Rename and delete unused shapes.\n\t- Parent to the world.\n\t- Apply normal[0] display type.\n\t- Apply default scene shader.\n\n\"\"\"" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "unlock_shapes_parent_shader" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ngeo_list=mc.ls(selection=True, type='transform')\n\nzapata_shelf_tools.geo_cleaner(geo_list=geo_list, lock=True, shapes=True, parent=True, shader=True)\n" )
+        -mip 0
+        -mi "unlock_shapes_shader" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ngeo_list=mc.ls(sl=True, type='transform')\n\nzapata_shelf_tools.geo_cleaner(geo_list=geo_list, lock=True, shapes=True, parent=False, shader=True)\n" )
+        -mip 1
+        -mi "unlock_shapes" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ngeo_list=mc.ls(sl=True, type='transform')\n\nzapata_shelf_tools.geo_cleaner(geo_list=geo_list, lock=True, shapes=True, parent=False, shader=False)\n" )
+        -mip 2
+        -mi "unlock" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ngeo_list=mc.ls(sl=True, type='transform')\n\nzapata_shelf_tools.geo_cleaner(geo_list=geo_list, lock=True, shapes=False, parent=False, shader=False)\n" )
+        -mip 3
+        -mi "shapes" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ngeo_list=mc.ls(sl=True, type='transform')\n\nzapata_shelf_tools.geo_cleaner(geo_list=geo_list, lock=False, shapes=True, parent=False, shader=False)\n" )
+        -mip 4
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Control" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Control" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -imageOverlayLabel "Ctr" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "\"\"\"\n\nfrom tools import zapata_shelf_tools\n\n-----------------------------------\n\nThis tool reset the controls to default.\n\n\t- Translation.\n\t- Rotation.\n\t- Scale.\n\t- Extra attributes.\n\t- Check if the attribute has connections.\n\n\"\"\"" 
+        -sourceType "python" 
+        -doubleClickCommand "\"\"\"\n\nfrom tools import zapata_shelf_tools\n\n-----------------------------------\n\nThis tool reset the controls to default.\n\n\t- Translation.\n\t- Rotation.\n\t- Scale.\n\t- Extra attributes.\n\t- Check if the attribute has connections.\n\n\"\"\"" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "reset_controls_translation_rotation_scale_extras" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ncontrol_list = []\n# Select all the controls in the scene\nfor usage in [\"ccc\", \"ctrl\", \"ctr\"]:\n    control_list_temp = mc.ls(\"*_{}\".format(usage))\n    control_list.extend(control_list_temp)\n\nzapata_shelf_tools.reset_controls(control_list=control_list, translate=True, rotate=True, scale=True, extras=True)\n" )
+        -mip 0
+        -mi "reset_controls_translation_rotation_scale" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ncontrol_list = []\n# Select all the controls in the scene\nfor usage in [\"ccc\", \"ctrl\", \"ctr\"]:\n    control_list_temp = mc.ls(\"*_{}\".format(usage))\n    control_list.extend(control_list_temp)\n\nzapata_shelf_tools.reset_controls(control_list=control_list, translate=True, rotate=True, scale=True, extras=False)\n" )
+        -mip 1
+        -mi "reset_controls_translation_rotation" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ncontrol_list = []\n# Select all the controls in the scene\nfor usage in [\"ccc\", \"ctrl\", \"ctr\"]:\n    control_list_temp = mc.ls(\"*_{}\".format(usage))\n    control_list.extend(control_list_temp)\n\nzapata_shelf_tools.reset_controls(control_list=control_list, translate=True, rotate=True, scale=False, extras=False)\n" )
+        -mip 2
+        -mi "reset_controls_translation" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ncontrol_list = []\n# Select all the controls in the scene\nfor usage in [\"ccc\", \"ctrl\", \"ctr\"]:\n    control_list_temp = mc.ls(\"*_{}\".format(usage))\n    control_list.extend(control_list_temp)\n\nzapata_shelf_tools.reset_controls(control_list=control_list, translate=True, rotate=False, scale=False, extras=False)\n" )
+        -mip 3
+        -mi "reset_controls_rotation" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ncontrol_list = []\n# Select all the controls in the scene\nfor usage in [\"ccc\", \"ctrl\", \"ctr\"]:\n    control_list_temp = mc.ls(\"*_{}\".format(usage))\n    control_list.extend(control_list_temp)\n\nzapata_shelf_tools.reset_controls(control_list=control_list, translate=False, rotate=True, scale=False, extras=False)\n" )
+        -mip 4
+        -mi "reset_controls_scale" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\ncontrol_list = []\n# Select all the controls in the scene\nfor usage in [\"ccc\", \"ctrl\", \"ctr\"]:\n    control_list_temp = mc.ls(\"*_{}\".format(usage))\n    control_list.extend(control_list_temp)\n\nzapata_shelf_tools.reset_controls(control_list=control_list, translate=False, rotate=False, scale=True, extras=False)\n" )
+        -mip 5
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Deformer" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Deformer" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -imageOverlayLabel "Def" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "\"\"\"\n\nfrom tools import zapata_shelf_tools\n\n-----------------------------------\n\n\n\n\t- Lable joints.\n\t- Select bind joints.\n\t- Select scene joints.\n\t- Select joints from skinCluster or geo.\n\n\"\"\"" 
+        -sourceType "python" 
+        -doubleClickCommand "\"\"\"\n\nfrom tools import zapata_shelf_tools\n\n-----------------------------------\n\n\n\n\t- Lable joints.\n\t- Select bind joints.\n\t- Select scene joints.\n\t- Select joints from skinCluster or geo.\n\n\"\"\"" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "generate_lable" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\njoint_list = mc.ls(selection=True, type=\"joint\")\n\n\n\nzapata_shelf_tools.lable_joints(joint_list=joint_list)\n" )
+        -mip 0
+        -mi "select_bind_joints" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\njoint_list = mc.ls(\"*_bind\", type=\"joint\")\nprint(joint_list)\n\n\nzapata_shelf_tools.select_joints(joint_list=joint_list)\n" )
+        -mip 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Connection" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Connection" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -imageOverlayLabel "Cnn" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "connection_translate_rotate_scale" ( "from tools import zapata_shelf_tools\nimport maya.cmds as mc\nimport importlib\nimportlib.reload(zapata_shelf_tools)\n\n\nselection_list = mc.ls(selection=True)\nif len(selection_list) > 2:\n\tmc.warning(\"Make sure to select only one driver and one driven.\")\nelse:\n\tdriver, driven = mc.ls(selection=True)\n\tzapata_shelf_tools.connect_local(driver=driver, driven=driven, translate=True, rotate=True, scale=True)" )
+        -mip 0
+    ;
+    shelfButton
+        -enableCommandRepeat 0
+        -flexibleWidthType 1
+        -flexibleWidthValue 32
+        -enable 1
+        -width 34
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Selection" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Selection" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -imageOverlayLabel "Sel" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "\"\"\"\n\nfrom tools import zapata_shelf_tools\n\n-----------------------------------\n\n\n\n\t- Lable joints.\n\t- Select bind joints.\n\t- Select scene joints.\n\t- Select joints from skinCluster or geo.\n\n\"\"\"" 
+        -sourceType "python" 
+        -doubleClickCommand "\"\"\"\n\nfrom tools import zapata_shelf_tools\n\n-----------------------------------\n\n\n\n\t- Lable joints.\n\t- Select bind joints.\n\t- Select scene joints.\n\t- Select joints from skinCluster or geo.\n\n\"\"\"" 
+        -commandRepeatable 0
+        -flat 1
+        -mi "Save selection" ( "import maya.cmds as mc\n\n\n# Save selection\nselection_list = mc.ls(sl=True)\nfor sel in selection_list:\n    print(\"Save selection: \" + sel)\n\n# Select save selection\n# mc.select(selection_list)\n# for sel in selection_list:\n#     print(\"Select: \" + sel)\n\n# Apply selection to new object\n# new_obj = mc.ls(sl=True)[0]\n# new_selection_list = []\n# for sel in selection_list:\n#     new_sel = sel.replace(sel.split(\".\")[0], new_obj)\n#     new_selection_list.append(new_sel)\n#     print(\"Select: \" + new_sel)\n# mc.select(new_selection_list)" )
+        -mip 0
+        -mi "Load selection" ( "import maya.cmds as mc\n\n\n# Save selection\n# selection_list = mc.ls(sl=True)\n# for sel in selection_list:\n#     print(\"Save selection: \" + sel)\n\n# Select save selection\n mc.select(selection_list)\n for sel in selection_list:\n     print(\"Select: \" + sel)\n\n# Apply selection to new object\n# new_obj = mc.ls(sl=True)[0]\n# new_selection_list = []\n# for sel in selection_list:\n#     new_sel = sel.replace(sel.split(\".\")[0], new_obj)\n#     new_selection_list.append(new_sel)\n#     print(\"Select: \" + new_sel)\n# mc.select(new_selection_list)" )
+        -mip 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Set color index" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Set Color" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -imageOverlayLabel "setColor" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from tools import setColor\nimport importlib\nimportlib.reload(setColor)\nsetColor()\n" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Smooth edges " 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Smooth Edges" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -imageOverlayLabel "Smooth" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "mel.eval('source \"tools/smooth_wim_coene.mel\"')" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Comet Renamer" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Comet Renamer" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -imageOverlayLabel "cRenamer" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "// --------------------------------------------------------------------------\n// cometRename.mel - MEL Script\n// --------------------------------------------------------------------------\n//\n// DESCRIPTION:\n//\tA nice renaming utility that allows basic Prefix, Suffix, Search &\n//\tReplace, and Rename+Number methods.  Works properly on any hierarchy,\n//\teven if renaming nodes in the hierarchy out of order.\n//\n// REQUIRES:\n//\tNothing.\n//\n//\n// USAGE:\n//\tsource \"cometRename.mel\"; cometRename();\n//\n// AUTHORS:\n//\tMichael B. Comet - comet@comet-cartoons.com\n//\tCopyright ©2003 Michael B. Comet - All Rights Reserved.\n//\n// VERSIONS:\n//\t1.00 - Feb 20, 2003 - Initial Release.\n//\t1.10 - Feb 20, 2003 - Fixed so also handles non-unique node names.\n//\t1.20 - Feb 28, 2003 - Fixed up code so string Replace won't die \n//\t\tif you search for nothing...And also sanity check for other \n//\t\tfields not to be blank\n//\t\tAlso made UI nicer so won't hit wrong buttons.\n//\n// --------------------------------------------------------------------------\n\n\n/*\n * stringReplace() - Given a main string str, looks for ALL occurances\n *\tof $search, and replaces them with $replace.\n *\n *\tThis properly handles the replace string being similar or a part\n *\tof the search string, and handling multiple matches.\n */\nproc string stringReplace(string $str, string $search, string $replace)\n{\n    string $retstr = \"\";\n\n    \t// Sanity check please!\n    if ($search == \"\")\n        return $str;\n    \n    if ($str == \"\")\n        return $str;\n        \n        \n    int $len = size($str);\n    int $lenS = size($search);\n    \n    int $i, $j;\n    int $match;\n    \n    for ($i=1; $i <= $len; ++$i)\n        {\n\t$match = 0;\n\n\t// Now get substring from where we are currently\n\t// to the number of letters past of the length\n\t// of the search string.  Basically the same\n\t// length as the search string.  So if it is identical\n\t// we know we have a match.\n\t//\n\t// If not, we don't.  We also make sure we aren't\n\t// trying to look past the end of the string...\n\t//\n\t$j = $i + ($lenS - 1);\n\n\tif ($j <= $len)\n\t    {\n\t    string $part = `substring $str $i $j`;\n\t    if ($part == $search)\n\t        $match = 1;\n\t    }\n\t\n\tif ($match == 1)\n\t    {\n\t    $retstr += $replace; // we did it, so insert replace str\n\t    $i = $j;\t// skip forward\n\t    }\n\telse\n\t    {\n\t    string $char = `substring $str $i $i`;\n\t    $retstr += $char;\n\t    }\n\t}\n\n    return $retstr;\n\t\n}\n\n// --------------------------------------------------------------------------\n\n/*\n * getShortName() - Given a string, get last part after last | pipe.\n */\nproc string getShortName(string $obj)\n{\n    string $ret = \"\";\n    \n    if ($obj == \"\")\n        return $ret;\n        \n    string $parts[];\n    int $cnt = tokenize($obj, \"|\", $parts);\n    \n    if ($cnt <= 0)\n        $ret = $obj;\n    else\n        $ret = $parts[($cnt-1)];\n    \n    return $ret;\n}\n\n// --------------------------------------------------------------------------\n\n/*\n * chop() - Removes last char\n */\nproc string chop(string $str)\n{\n    string $ret = \"\";\n\n    int $cnt = size($str);\n    \n    if ($cnt <= 1)\n        return $ret;\n    \n    $ret = `substring $str 1 ($cnt-1)`;\n\n    return $ret;\n}\n\n// --------------------------------------------------------------------------\n\n/*\n * cR_doRename() - Does real work of renaming selected objects\n *\n *    $mode:  0=S&R 1=Pre 2=Suf 3=R&N\n */\nglobal proc cR_doRename(int $mode)\n{\n    string $objs[] = `ls -sl -long`;\n    int $objCnt = size($objs);\n    int $i;\n\n\t// Get all UI data...\n\t//\n    string $search = `textField -q -tx tfSearch`;\n    string $replace = `textField -q -tx tfReplace`;\n    string $prefix = `textField -q -tx tfPrefix`;\n    string $suffix = `textField -q -tx tfSuffix`;\n    string $rename = `textField -q -tx tfRename`;\n    int $start = `intField -q -v ifNumber`;\n    int $padding = `intField -q -v ifPadding`;\n    \n    string $shortName;\n    string $newShortName;\n    string $newName;\n\n\t// Now do it\n\t//\n    for ($i=0; $i < $objCnt; ++$i)\n        {\n\t$obj = $objs[$i];\n\t\n\t$shortName = getShortName($obj);\n\t\t\n\tswitch ($mode)\n\t    {\n\t    case 0:\n\t        if ($search == \"\")\n\t            {\n\t            warning -sl 0 (\"Can't search and replace, search entry field is blank!\");\n\t            return;\n\t            }\n\t        $newShortName = stringReplace($shortName, $search, $replace);\n\t        break;\n\n\t    case 1:\n\t        if ($prefix == \"\")\n\t            {\n\t            warning -sl 0 (\"Can't add prefix, prefix entry field is blank!\");\n\t            return;\n\t    \t    }\n\t        $newShortName = ($prefix + $shortName);\n\t        break;\n\n\t    case 2:\n\t        if ($suffix == \"\")\n\t            {\n\t            warning -sl 0 (\"Can't add suffix, suffix entry field is blank!\");\n\t            return;\n\t    \t    }\n\t        $newShortName = ($shortName + $suffix);\n\t        break;\n\n\t    case 3:\n\t        if ($rename == \"\")\n\t            {\n\t            warning -sl 0 (\"Can't rename and number, rename entry field is blank!\");\n\t            return;\n\t            }\n\t    \t\t// get index of string as user wants\n\t    \tint $n = $i + $start;\n\t    \t\t// pad of 0's\n\t    \tstring $padStr = \"\";\n\t    \t\n\t    \t\t// Add padding as needed\n\t    \tfor ($p=1; $p < $padding; ++$p)\n\t    \t    {\n\t\t    if ($n < pow(10, $p) )\n\t\t        $padStr += \"0\";\n\t\t    }\n\t    \t\n\t    \t$newShortName = ($rename+$padStr+$n);\n\t        break;\n\n\t    } // end of switch\n\t\t\n\t\n\t$newName = `rename $obj $newShortName`;\n\tselect -r $newName;\n\tstring $newLongNames[] = `ls -sl -long`;\n\tstring $newLongName = $newLongNames[0];\n\t\n\t    // Now update rest of stuff in list in case |long|names\n\t    // required it\n\tfor ($j=0; $j < $objCnt; ++$j)\n\t    {\n\t    string $tmp = $objs[$j];\n\n\t    $tmp += \"|\";\t// add to end for easy replacing\n\t    $tmp = `substitute ($obj+\"|\") $tmp (\"|\"+$newLongName+\"|\")`;\n\t    $tmp = chop($tmp);\n\t    \n\t    $objs[$j] = $tmp;\n\t    }\n\t\n\n\t}  // end of for all objs\n\n    select $objs;\n    \n}\n\n\n// --------------------------------------------------------------------------\n\n/*\n * cometRename() - Main UI entry.\n */\nglobal proc cometRename()\n{\n    if (`window -ex cometRenameWin` != true)\n        {\n\twindow -w 310 -h 360 -t (\"cometRename - 1.20\") -in \"cometRename\" -s true -tb true cometRenameWin;\n\n\tcolumnLayout cr_mainCol;\n\n\tseparator -style \"in\" -w 300 -h 8;\n\n\trowColumnLayout -nc 2 -cw 1 50 -cw 2 250;\n\t    text -l \"Search: \" -al \"right\";\n\t    textField -tx \"\" tfSearch;\n\t    setParent \"..\";\n\trowColumnLayout -nc 2 -cw 1 50 -cw 2 250;\n\t    text -l \"Replace: \" -al \"right\";\n\t    textField -tx \"\" tfReplace;\n\t    setParent \"..\";\n\tseparator -style \"none\" -w 300 -h 4;\n\tbutton -l \"Search And Replace\" -al \"center\" -w 300 -c (\"cR_doRename(0);\") -ann \"Searches for Search text and replaecs with Replace text.  Replace CAN be blank to remove text, or CAN be a part of or contain search string in it.\" butSearchReplace;\n\n\tseparator -style \"none\" -w 300 -h 10;\n\tseparator -style \"in\" -w 300 -h 8;\n\n\trowColumnLayout -nc 2 -cw 1 50 -cw 2 250;\n\t    text -l \"Prefix: \" -al \"right\";\n\t    textField -tx \"\" tfPrefix;\n\t    setParent \"..\";\n\tseparator -style \"none\" -w 300 -h 4;\n\tbutton -l \"Add Prefix\" -al \"center\" -w 300 -c (\"cR_doRename(1);\") -ann \"Adds prefix text in before current name of each object\" butPrefix;\n\n\n\tseparator -style \"none\" -w 300 -h 10;\n\tseparator -style \"in\" -w 300 -h 8;\n\n\trowColumnLayout -nc 2 -cw 1 50 -cw 2 250;\n\t    text -l \"Suffix: \" -al \"right\";\n\t    textField -tx \"\" tfSuffix;\n\t    setParent \"..\";\n\tseparator -style \"none\" -w 300 -h 4;\n\tbutton -l \"Add Suffix\" -al \"center\" -w 300 -c (\"cR_doRename(2);\") -ann \"Adds suffix text in after current name of each object\" butSuffix;\n\n\tseparator -style \"none\" -w 300 -h 10;\n\tseparator -style \"in\" -w 300 -h 8;\n\n\trowColumnLayout -nc 2 -cw 1 50 -cw 2 250;\n\t    text -l \"Rename: \" -al \"right\";\n\t    textField -tx \"\" tfRename;\n\t    setParent \"..\";\n\trowColumnLayout -nc 2 -cw 1 50 -cw 2 60;\n\t    text -l \"Start #: \" -al \"right\";\n\t    intField -v 1 -w 60 -min 0 ifNumber;\n\t    setParent \"..\";\n\trowColumnLayout -nc 2 -cw 1 50 -cw 2 60;\n\t    text -l \"Padding: \" -al \"right\";\n\t    intField -v 0 -w 60 -min 0 ifPadding;\n\t    setParent \"..\";\n\tseparator -style \"none\" -w 300 -h 4;\n\tbutton -l \"Rename And Number\" -al \"center\" -w 300 -c (\"cR_doRename(3);\") -ann \"Renames each object with the base rename text, then adds a number after each, with the specfied number of zero padding in front of the number\" butRenameNumber;\n\n\tseparator -style \"in\" -w 300 -h 8;\n\n\n\tshowWindow cometRenameWin;\n\t}\n    else\t// else just pop it up from being minimized again\n    \t{\n\tshowWindow cometRenameWin;\n\t}\n\n}\ncometRename();\n\n// --------------------------------------------------------------------------\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Renamer" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Renamer" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -imageOverlayLabel "Renamer" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "# Load renamer tool\n\nimport sys\nimport os\nimport importlib\n\npath = 'D:\\\\repositories\\\\morphTools\\\\'\nif os.path.exists(path) and path not in sys.path:\n    sys.path.append(path)\n\n\nfrom scripts.rig.rigTools import renamer_tool_100 as renamer_tool\nimportlib.reload(renamer_tool)" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+
+} 
