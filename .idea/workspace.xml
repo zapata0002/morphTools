@@ -5,18 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6168222a-7394-4281-bcbf-931afa7e3c41" name="Changes" comment="- Add scripts.&#10;- Renamer tool now supports rename and order with letters.">
-      <change afterPath="$PROJECT_DIR$/scripts/model/landmark_material.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/rig/rigTools/sceneCleaner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/rig/rigLib/geometry.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/setup/shelf_custom.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/gui/renamer_tool_1.0.ui" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigTools/gui/renamer_tool_1.0.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool_100.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool_100.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool_200.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool_200.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/connection_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigLib/connection_lib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/side_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/usage_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/sceneCleaner.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigTools/sceneCleaner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/setup/tools/transform_cleaner.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/setup/tools/transform_cleaner.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,7 +73,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;branchLuis&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/repositories/morphTools&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   },
