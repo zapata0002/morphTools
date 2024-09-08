@@ -230,4 +230,7 @@ def openWindow():
     RenamerWindow.window.show()
 
 
-openWindow()
+def run():
+    openWindow()
+
+

@@ -229,5 +229,5 @@ def openWindow():
     RenamerWindow.window.setWindowTitle('Renamer Tool')
     RenamerWindow.window.show()
 
-
-openWindow()
+def run():
+    openWindow()

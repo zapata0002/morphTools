@@ -36,3 +36,80 @@ def makeControlShape(transform, shape_type, color_name, scale=1):
         mc.delete(temp_ctrl)
     return transform
 
+
+def reset_control_to_default(control_list=[], translate=True, rotate=True, scale=True, extras=False):
+    """
+    Reset controls to default
+    param: control_list: list of strings
+    param: translate: bool
+    param: rotate: bool
+    param: scale: bool
+    param: extras: bool
+    """
+    for ctrl in control_list:
+        print(ctrl)
+        # Check attributes on the channelBox
+        attrList = mc.listAttr(ctrl, unlocked=False, keyable=True, visible=True)
+        for attr in attrList:
+            if translate and attr.startswith("translate"):
+                # Check if the attribute has input connection
+                # cnn_list = mc.listConnections("{}.{}".format(ctrl, attr), source=True, destination=False)
+                # if cnn_list:
+                #    mc.warning("Cannot reset to default {}.{}, it has an input connection".format(ctrl, attr))
+                # else:
+                # Get attribute default value
+                value = mc.attributeQuery(attr, node=ctrl, listDefault=True)[0]
+                current_value = mc.attributeQuery(attr, node=ctrl, lisTdefault=False)[0]
+                if value is not current_value:
+                    # Set attribute to default
+                    mc.setAttr('{}.{}'.format(ctrl, attr), value)
+                    print(attr, value)
+                else:
+                    pass
+            elif rotate and attr.startswith("rotate"):
+                # Check if the attribute has input connection
+                # cnn_list = mc.listConnections("{}.{}".format(ctrl, attr), source=True, destination=False)
+                # if cnn_list:
+                #    mc.warning("Cannot reset to default {}.{}, it has an input connection".format(ctrl, attr))
+                # else:
+                # Get attribute default value
+                value = mc.attributeQuery(attr, node=ctrl, listDefault=True)[0]
+                current_value = mc.attributeQuery(attr, node=ctrl, lisTdefault=False)[0]
+                if value is not current_value:
+                    # Set attribute to default
+                    mc.setAttr('{}.{}'.format(ctrl, attr), value)
+                    print(attr, value)
+                else:
+                    pass
+            elif scale and attr.startswith("scale"):
+                # Check if the attribute has input connection
+                # cnn_list = mc.listConnections("{}.{}".format(ctrl, attr), source=True, destination=False)
+                # if cnn_list:
+                #    mc.warning("Cannot reset to default {}.{}, it has an input connection".format(ctrl, attr))
+                # else:
+                # Get attribute default value
+                value = mc.attributeQuery(attr, node=ctrl, listDefault=True)[0]
+                current_value = mc.attributeQuery(attr, node=ctrl, lisTdefault=False)[0]
+                if value is not current_value:
+                    # Set attribute to default
+                    mc.setAttr('{}.{}'.format(ctrl, attr), value)
+                    print(attr, value)
+                else:
+                    pass
+            elif extras and not (attr.startswith("translate") or attr.startswith("rotate") or attr.startswith("scale")):
+                # Check if the attribute has input connection
+                # cnn_list = mc.listConnections("{}.{}".format(ctrl, attr), source=True, destination=False)
+                # if cnn_list:
+                #    mc.warning("Cannot reset to default {}.{}, it has an input connection".format(ctrl, attr))
+                # else:
+                # Get attribute default value
+                value = mc.attributeQuery(attr, node=ctrl, listDefault=True)[0]
+                current_value = mc.attributeQuery(attr, node=ctrl, lisTdefault=False)[0]
+                if value is not current_value:
+                    # Set attribute to default
+                    mc.setAttr('{}.{}'.format(ctrl, attr), value)
+                    print(attr, value)
+                else:
+                    pass
+            else:
+                pass

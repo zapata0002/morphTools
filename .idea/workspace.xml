@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6168222a-7394-4281-bcbf-931afa7e3c41" name="Changes" comment="- Add scripts.&#10;- Renamer tool now supports rename and order with letters.">
+<<<<<<< Updated upstream
       <change afterPath="$PROJECT_DIR$/scripts/rig/rigLib/geometry.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/scripts/setup/shelf_custom.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -13,6 +14,31 @@
       <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/usage_lib.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/sceneCleaner.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigTools/sceneCleaner.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/setup/tools/transform_cleaner.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/setup/tools/transform_cleaner.py" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/model/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/model/landmark_material.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/attribute_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigLib/attribute.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/connection_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigLib/connection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/control.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigLib/control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/curve_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigLib/curve.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/deformer_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigLib/deformer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/math_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigLib/math.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/module_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigLib/module.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/shape_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigLib/shape.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/side_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigLib/usage_lib.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigMel/abSymMesh.mel" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigMel/smooth_wim_coene.mel" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool_100.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool_100.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool_200.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rig/rigTools/renamer_tool_200.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/setup/tools/renamer_tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/setup/tools/renamer_tool_zapata.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/setup/tools/renamer_zapata.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/setup/tools/stretch_system.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/setup/tools/transform_cleaner.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/setup/tools/zapata_tool.py" beforeDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
