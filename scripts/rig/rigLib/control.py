@@ -113,3 +113,28 @@ def reset_control_to_default(control_list=[], translate=True, rotate=True, scale
                     pass
             else:
                 pass
+
+def reset_translate(control_list):
+    """
+    Reset translate to default
+    param: control_list: list of strings
+    """
+    for ctrl in control_list:
+        print(ctrl)
+        # Check attributes on the channelBox
+        attrList = mc.listAttr(ctrl, unlocked=False, keyable=True, visible=True)
+        for attr in attrList:
+            # Check if the attribute has input connection
+            # cnn_list = mc.listConnections("{}.{}".format(ctrl, attr), source=True, destination=False)
+            # if cnn_list:
+            #    mc.warning("Cannot reset to default {}.{}, it has an input connection".format(ctrl, attr))
+            # else:
+            # Get attribute default value
+            value = mc.attributeQuery(attr, node=ctrl, listDefault=True)[0]
+            current_value = mc.getAttr("{}.{}".format(ctrl, attr))
+            if value is not current_value:
+                # Set attribute to default
+                mc.setAttr('{}.{}'.format(ctrl, attr), value)
+                print(attr + " value --> " + str(value) + " current value --> " + str(current_value))
+            else:
+                pass

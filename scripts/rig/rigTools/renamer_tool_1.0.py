@@ -1,5 +1,4 @@
-import maya.cmds as cmds
-import maya.mel as mel
+from maya import cmds as mc
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance
 from PySide2 import QtUiTools, QtCore, QtGui, QtWidgets
@@ -70,62 +69,62 @@ class RenamerWindow(QtWidgets.QWidget):
         self.rbtn_orderNum.toggled.connect(self.update_padding_lock)
 
     def search_and_replace(self):
-        cmds.undoInfo(openChunk=True)
+        mc.undoInfo(openChunk=True)
         search_text = self.in_search.text()
         replace_text = self.in_replace.text()
-        selected_list = cmds.ls(sl=True)
+        selected_list = mc.ls(sl=True)
         if len(selected_list) == 0:
-            cmds.warning("Select the node to replace")
+            mc.warning("Select the node to replace")
         elif self.search_text == "":
-            cmds.warning("Search entry field is empty")
+            mc.warning("Search entry field is empty")
         else:
             for sel in reversed(selected_list):
                 split_name = sel.split('|')
                 search_name_node = split_name[-1].replace(search_text, replace_text)
-                cmds.rename(sel, search_name_node)
-        cmds.undoInfo(closeChunk=True)
+                mc.rename(sel, search_name_node)
+        mc.undoInfo(closeChunk=True)
 
     def add_prefix(self):
-        cmds.undoInfo(openChunk=True)
+        mc.undoInfo(openChunk=True)
         prefix_text = self.in_prefix.text()
-        selected_list = cmds.ls(sl=True)
+        selected_list = mc.ls(sl=True)
         if len(selected_list) == 0:
-            cmds.warning("Select the node to add prefix")
+            mc.warning("Select the node to add prefix")
         elif prefix_text == "":
-            cmds.warning("Prefix entry field is empty")
+            mc.warning("Prefix entry field is empty")
         else:
             for sel in reversed(selected_list):
                 split_name = sel.split('|')
-                cmds.rename(sel, '{}{}'.format(prefix_text, split_name[-1]))
-        cmds.undoInfo(closeChunk=True)
+                mc.rename(sel, '{}{}'.format(prefix_text, split_name[-1]))
+        mc.undoInfo(closeChunk=True)
 
     def add_suffix(self):
-        cmds.undoInfo(openChunk=True)
-        selected_list = cmds.ls(sl=True)
+        mc.undoInfo(openChunk=True)
+        selected_list = mc.ls(sl=True)
         suffix_text = self.in_suffix.text()
         if len(selected_list) == 0:
-            cmds.warning("Select the node to add suffix")
+            mc.warning("Select the node to add suffix")
         elif suffix_text == "":
-            cmds.warning("Suffix entry field is empty")
+            mc.warning("Suffix entry field is empty")
         else:
             for sel in reversed(selected_list):
                 split_name = sel.split('|')
-                cmds.rename(sel, '{}{}'.format(split_name[-1], suffix_text))
-        cmds.undoInfo(closeChunk=True)
+                mc.rename(sel, '{}{}'.format(split_name[-1], suffix_text))
+        mc.undoInfo(closeChunk=True)
 
     def rename_and_order(self):
-        cmds.undoInfo(openChunk=True)
+        mc.undoInfo(openChunk=True)
 
         orderRename_text = self.in_orderRename.text()
         orderPrefix_text = self.in_orderPrefix.text()
         orderSuffix_text = self.in_orderSuffix.text()
         orderStart_text = self.in_orderStart.text()
         orderPadding_text = self.in_orderPadding.text()
-        selected_list = cmds.ls(sl=True)
+        selected_list = mc.ls(sl=True)
         if len(selected_list) == 0:
-            cmds.warning("Select the node to rename")
+            mc.warning("Select the node to rename")
         elif orderRename_text == "":
-            cmds.warning("Rename entry field is empty")
+            mc.warning("Rename entry field is empty")
         else:
             if self.rbtn_orderNum.isChecked() is True:
                 start_number = int(orderStart_text)
@@ -136,15 +135,15 @@ class RenamerWindow(QtWidgets.QWidget):
                     end_number_len = len(str(end_number))
                     if padding_int > end_number_len:
                         zero_padding = '0' * (padding_int - end_number_len)
-                    rename_name = cmds.rename(sel, '{}{}{}'.format(orderRename_text, zero_padding, str(end_number)))
+                    rename_name = mc.rename(sel, '{}{}{}'.format(orderRename_text, zero_padding, str(end_number)))
                     end_number -= 1
                     if orderSuffix_text:
-                        rename_name = cmds.rename(rename_name, '{}{}'.format(rename_name, orderSuffix_text))
+                        rename_name = mc.rename(rename_name, '{}{}'.format(rename_name, orderSuffix_text))
                         if orderPrefix_text:
-                            cmds.rename(rename_name, '{}{}'.format(orderPrefix_text, rename_name))
+                            mc.rename(rename_name, '{}{}'.format(orderPrefix_text, rename_name))
                     else:
                         if orderPrefix_text:
-                            cmds.rename(rename_name, '{}{}'.format(orderPrefix_text, rename_name))
+                            mc.rename(rename_name, '{}{}'.format(orderPrefix_text, rename_name))
             elif self.rbtn_orderLetter.isChecked() is True:
                 orderOption = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 start_letter_index = int(orderStart_text) - 1
@@ -165,22 +164,22 @@ class RenamerWindow(QtWidgets.QWidget):
                     current_letter = ''.join(reversed(letter_parts))
                     print("Current letter: " + current_letter)
 
-                    rename_name = cmds.rename(sel, '{}{}'.format(orderRename_text, current_letter))
+                    rename_name = mc.rename(sel, '{}{}'.format(orderRename_text, current_letter))
                     # Grow index for next
                     current_index += 1
 
                     if orderSuffix_text:
-                        rename_name = cmds.rename(rename_name, '{}{}'.format(rename_name, orderSuffix_text))
+                        rename_name = mc.rename(rename_name, '{}{}'.format(rename_name, orderSuffix_text))
                         if orderPrefix_text:
-                            cmds.rename(rename_name, '{}{}'.format(orderPrefix_text, rename_name))
+                            mc.rename(rename_name, '{}{}'.format(orderPrefix_text, rename_name))
                     else:
                         if orderPrefix_text:
-                            cmds.rename(rename_name, '{}{}'.format(orderPrefix_text, rename_name))
+                            mc.rename(rename_name, '{}{}'.format(orderPrefix_text, rename_name))
 
             else:
-                cmds.warning("No order option checked, choose between number or letter")
+                mc.warning("No order option checked, choose between number or letter")
 
-            cmds.undoInfo(closeChunk=True)
+            mc.undoInfo(closeChunk=True)
 
     def clear(self):
         self.in_search.setText(self.search_default)
